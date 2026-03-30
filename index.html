@@ -1,0 +1,2665 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>长岛周末 — 四月下旬行程指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f4ece2;
+  --paper: #fdf8f3;
+  --ink: #1f1b17;
+  --muted: #665f58;
+  --green: #7c4a2d;
+  --gold: #c1440e;
+  --rose: #e9c46a;
+  --shadow: 0 24px 60px rgba(27,22,16,0.12);
+  --copy: min(1120px, 92vw);
+  --r: 30px;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font: 17px/1.7 system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+.rail {
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(16px);
+  background: rgba(253,248,243,0.86);
+  border-bottom: 1px solid rgba(255,255,255,0.46);
+}
+.rail-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--copy); margin: 0 auto; padding: 0 20px; height: 64px;
+}
+.rail-logo {
+  font: 700 18px "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--green); letter-spacing: -0.01em; white-space: nowrap;
+}
+.rail-links { display: flex; gap: 24px; list-style: none; }
+.rail-links a {
+  color: var(--muted); text-decoration: none; font-size: 13px;
+  letter-spacing: 0.03em; transition: color 0.2s; white-space: nowrap;
+}
+.rail-links a:hover { color: var(--green); }
+
+.hero {
+  min-height: 92vh;
+  border-radius: 40px;
+  margin: 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(160deg, rgba(60,30,10,0.88) 0%, rgba(124,74,45,0.65) 38%, rgba(193,68,14,0.22) 68%, rgba(244,236,226,0) 100%),
+    url("./assets/tulip_field.jpg") center/cover no-repeat;
+  display: grid;
+  align-content: end;
+  padding: 80px 60px 60px;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  max-width: var(--copy); margin: 0 auto; width: 100%;
+}
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rose); margin-bottom: 16px;
+}
+.hero-title {
+  font: 700 clamp(2.4rem,5.5vw,4.4rem)/1.1 "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: #fff; margin-bottom: 24px;
+}
+.hero-lead {
+  font-size: clamp(1rem,1.8vw,1.15rem); color: rgba(255,255,255,0.88);
+  line-height: 1.68; max-width: 440px;
+}
+.hero-note {
+  background: rgba(253,248,243,0.16); border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 22px; padding: 30px 32px; backdrop-filter: blur(14px); align-self: end;
+}
+.hero-note p { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.76; }
+.hero-note cite {
+  display: block; margin-top: 14px; font-size: 0.82rem;
+  color: var(--rose); font-style: normal; letter-spacing: 0.02em;
+}
+
+.hero-strip {
+  max-width: var(--copy); margin: -60px auto 0; padding: 0 20px;
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 26px;
+}
+.strip-media {
+  border-radius: var(--r); overflow: hidden;
+  position: relative; height: 320px; box-shadow: var(--shadow);
+}
+.strip-media img { width: 100%; height: 100%; object-fit: cover; }
+.strip-body {
+  background: var(--paper); border-radius: var(--r);
+  padding: 40px; box-shadow: var(--shadow);
+}
+.strip-label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+}
+.strip-h {
+  font: 700 1.75rem/1.25 "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--ink); margin-bottom: 16px;
+}
+.strip-p { color: var(--muted); line-height: 1.72; font-size: 0.95rem; }
+.strip-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.tag {
+  background: var(--bg); border-radius: 999px;
+  padding: 5px 14px; font-size: 12px; color: var(--muted);
+}
+
+.section { max-width: var(--copy); margin: 94px auto 0; padding: 0 20px; }
+.section-head {
+  display: grid; grid-template-columns: 170px minmax(0,1fr);
+  gap: 24px; margin-bottom: 48px; align-items: start;
+}
+.section-label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold); padding-top: 8px;
+}
+.section-title {
+  font: 700 clamp(1.6rem,3vw,2.4rem)/1.2 "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--ink);
+}
+.section-sub {
+  color: var(--muted); margin-top: 10px; max-width: 560px; line-height: 1.72; font-size: 0.95rem;
+}
+.section-head-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+
+.day-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.day-tab {
+  background: var(--bg); border: 1px solid transparent;
+  border-radius: 999px; padding: 8px 20px; font-size: 13px;
+  cursor: pointer; color: var(--muted); transition: all 0.2s; font-family: inherit;
+}
+.day-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+.day-tab:hover:not(.active) { border-color: var(--gold); color: var(--ink); }
+.day-panel { display: none; }
+.day-panel.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.itinerary-card {
+  background: var(--paper); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow);
+}
+.itinerary-card-img { height: 180px; overflow: hidden; }
+.itinerary-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.itinerary-card-body { padding: 24px; }
+.itinerary-card-time {
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.itinerary-card-title {
+  font: 600 1.08rem "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--ink); margin-bottom: 10px;
+}
+.itinerary-card-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.66; }
+.editorial-band {
+  background: var(--green); border-radius: var(--r);
+  padding: 48px 60px; margin-top: 40px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.band-quote {
+  font: italic 1.55rem/1.5 "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: #fff;
+}
+.band-copy { color: rgba(255,255,255,0.82); line-height: 1.76; font-size: 0.95rem; }
+
+.route-section { max-width: var(--copy); margin: 94px auto 0; padding: 0 20px; }
+.route-panel {
+  background: var(--paper); border-radius: 34px;
+  padding: 40px; box-shadow: var(--shadow); margin-bottom: 40px;
+}
+.route-cover { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 26px; margin-bottom: 32px; }
+.route-main-img { border-radius: 22px; overflow: hidden; height: 340px; }
+.route-main-img img { width: 100%; height: 100%; object-fit: cover; }
+.route-info { display: flex; flex-direction: column; justify-content: space-between; }
+.route-title {
+  font: 700 1.85rem/1.22 "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--ink); margin-bottom: 12px;
+}
+.route-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.route-chip {
+  background: var(--bg); border-radius: 999px;
+  padding: 5px 14px; font-size: 12px; color: var(--muted);
+}
+.route-desc { color: var(--muted); line-height: 1.72; flex: 1; margin-bottom: 20px; font-size: 0.94rem; }
+.route-stops { display: flex; flex-direction: column; gap: 8px; }
+.route-stop { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: var(--ink); }
+.stop-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0; margin-top: 7px;
+}
+.route-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.route-shot img {
+  width: 100%; height: 210px; object-fit: cover;
+  border-radius: 22px; display: block;
+}
+.route-extension {
+  margin-top: 24px; background: var(--bg); border-radius: 16px; padding: 20px 24px;
+}
+.route-extension h4 {
+  font: 600 0.92rem "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--green); margin-bottom: 6px;
+}
+.route-extension p { color: var(--muted); font-size: 0.87rem; line-height: 1.66; }
+
+#map {
+  border-radius: 24px; overflow: hidden;
+  width: 100%; height: 500px; box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+
+
+.attr-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.filter-btn {
+  background: var(--bg); border: 1px solid transparent;
+  border-radius: 999px; padding: 7px 18px; font-size: 13px;
+  cursor: pointer; color: var(--muted); transition: all 0.2s; font-family: inherit;
+}
+.filter-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+.filter-btn:hover:not(.active) { border-color: var(--gold); color: var(--ink); }
+.attraction-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.attr-card {
+  background: var(--paper); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 8px 24px rgba(27,22,16,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.attr-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.attr-img { height: 160px; overflow: hidden; position: relative; }
+.attr-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.attr-cat {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(27,22,16,0.62); color: #fff;
+  border-radius: 999px; padding: 3px 10px; font-size: 11px;
+}
+.attr-body { padding: 16px; }
+.attr-name {
+  font: 600 0.94rem "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--ink); margin-bottom: 5px;
+}
+.attr-detail { color: var(--muted); font-size: 0.82rem; line-height: 1.52; }
+
+.practical-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.prac-card { background: var(--paper); border-radius: 22px; padding: 28px; box-shadow: var(--shadow); }
+.prac-icon { font-size: 2rem; margin-bottom: 14px; }
+.prac-title {
+  font: 600 1.08rem "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--ink); margin-bottom: 12px;
+}
+.prac-list { list-style: none; color: var(--muted); font-size: 0.89rem; line-height: 1.85; }
+.prac-list li::before { content: "— "; color: var(--gold); }
+
+.sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+.source-card { background: var(--paper); border-radius: 20px; padding: 26px; box-shadow: 0 8px 24px rgba(27,22,16,0.08); }
+.source-card h3 {
+  font: 600 1rem "Baskerville Old Face", "IM Fell English", Georgia, serif;
+  color: var(--green); margin-bottom: 14px;
+}
+.source-card a {
+  color: var(--muted); font-size: 0.87rem; line-height: 1.95;
+  display: block; text-decoration: none;
+}
+.source-card a:hover { color: var(--green); text-decoration: underline; }
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.7);
+  text-align: center; padding: 52px 20px; margin-top: 80px;
+  font-size: 0.87rem; line-height: 1.95;
+}
+footer strong { color: #fff; }
+
+@media (max-width: 900px) {
+  .hero { margin: 10px; padding: 48px 28px 40px; border-radius: 28px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .hero-note { display: none; }
+  .hero-strip { grid-template-columns: 1fr; margin-top: -30px; }
+  .strip-media { height: 220px; }
+  .section-head { grid-template-columns: 1fr; }
+  .section-label { padding-top: 0; }
+  .day-panel.active { grid-template-columns: 1fr; }
+  .editorial-band { grid-template-columns: 1fr; gap: 24px; padding: 32px 28px; }
+  .route-cover { grid-template-columns: 1fr; }
+  .route-gallery { grid-template-columns: repeat(2, 1fr); }
+  #map { height: 320px; }
+  .attraction-grid { grid-template-columns: repeat(2, 1fr); }
+  .practical-grid { grid-template-columns: 1fr; }
+  .sources-grid { grid-template-columns: 1fr; }
+  .rail-links { display: none; }
+}
+@media (max-width: 540px) {
+  .attraction-grid { grid-template-columns: 1fr; }
+  .route-gallery { grid-template-columns: 1fr; }
+}
+
+/* ── Timeline itinerary ── */
+#day1.day-panel.active, #day2.day-panel.active { display: block; }
+.timeline { display: flex; flex-direction: column; }
+.tl-item { display: grid; grid-template-columns: 72px 28px 1fr; padding-bottom: 24px; }
+.tl-time { text-align: right; font-size: 13px; font-weight: 700; color: var(--gold); line-height: 1.3; padding-top: 1px; }
+.tl-dot-col { display: flex; flex-direction: column; align-items: center; padding: 0 8px; }
+.tl-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--green); border: 2px solid var(--paper); flex-shrink: 0; box-shadow: 0 0 0 3px rgba(124,74,45,0.12); }
+.tl-dot.depart { background: var(--rose); }
+.tl-dot.stay   { background: var(--ink); }
+.tl-line { flex: 1; width: 2px; background: rgba(124,74,45,0.15); margin: 5px 0 0; }
+.tl-item:last-child .tl-line { display: none; }
+.tl-title { font: 700 1rem/1.25 "Baskerville Old Face","IM Fell English",Georgia,serif; color: var(--ink); margin-bottom: 4px; }
+.tl-title.clickable { cursor: pointer; border-bottom: 1px dashed rgba(124,74,45,0.3); transition: color 0.15s; }
+.tl-title.clickable:hover { color: var(--gold); }
+.card-link { color: var(--gold); cursor: pointer; border-bottom: 1px dashed rgba(193,68,14,0.3); text-decoration: none; font-weight: 600; transition: opacity 0.15s; }
+.card-link:hover { opacity: 0.7; }
+.tl-sub { font-size: 11px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+.tl-desc { color: var(--muted); font-size: 0.87rem; line-height: 1.62; margin-bottom: 8px; }
+.tl-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tl-tag { background: var(--bg); border-radius: 999px; padding: 3px 10px; font-size: 11px; color: var(--muted); }
+.tl-tag.hl { background: rgba(193,68,14,0.1); color: var(--green); border: 1px solid rgba(193,68,14,0.3); }
+
+/* ── Attraction modal ── */
+
+/* ── Attraction cards ── */
+.attr-card {
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.attr-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(27,22,16,0.14);
+}
+
+/* ── Modal overlay ── */
+#attr-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#attr-modal[hidden] {
+  display: none;
+}
+
+/* ── Backdrop ── */
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(31,27,23,0.7);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+}
+
+/* ── Modal inner container ── */
+.modal-inner {
+  position: relative;
+  background: var(--paper);
+  border-radius: 24px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.38);
+  animation: modalIn 0.22s ease;
+}
+
+/* ── Entry animation ── */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Close button ── */
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(31,27,23,0.1);
+  color: var(--ink);
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.modal-close:hover {
+  background: rgba(31,27,23,0.22);
+}
+
+/* ── Hero image ── */
+.modal-hero img {
+  display: block;
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 24px 24px 0 0;
+}
+
+/* ── Body grid ── */
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  padding: 28px 32px 36px;
+}
+
+/* ── Left info column ── */
+.modal-info {
+}
+
+/* ── Category pill ── */
+.modal-cat {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+.modal-cat.beach {
+  background: rgba(193,68,14,0.1);
+  color: #c1440e;
+}
+
+.modal-cat.food {
+  background: rgba(233,196,106,0.25);
+  color: #a0720a;
+}
+
+.modal-cat.history {
+  background: rgba(124,74,45,0.1);
+  color: #7c4a2d;
+}
+
+.modal-cat.nature {
+  background: rgba(74,124,89,0.12);
+  color: #4a7c59;
+}
+
+/* ── Attraction name ── */
+.modal-name {
+  font: 700 1.6rem/1.2 "Baskerville Old Face","IM Fell English",Georgia,serif;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+/* ── Description ── */
+.modal-desc {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin: 0 0 16px;
+}
+
+/* ── Detail block ── */
+.modal-detail {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  background: rgba(193,68,14,0.07);
+  padding: 10px 16px;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+
+/* ── Ratings & Reviews ── */
+.modal-rating-block { margin: 20px 0 6px; }
+.modal-rating-summary { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.modal-rating-score { font: 700 1.3rem/1 "Baskerville Old Face","IM Fell English",Georgia,serif; color: var(--ink); }
+.modal-rating-stars { color: #e9c46a; font-size: 1rem; letter-spacing: 1px; }
+.modal-rating-stars .empty { color: #d5cec6; }
+.modal-review-list { display: flex; flex-direction: column; gap: 12px; }
+.modal-review { background: var(--bg); border-radius: 10px; padding: 12px 16px; }
+.modal-review-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.modal-review-author { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.modal-review-stars { font-size: 0.75rem; color: #e9c46a; letter-spacing: 1px; }
+.modal-review-text { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+/* ── Nearby section title ── */
+.modal-nearby-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 22px 0 10px;
+  font-weight: 600;
+}
+
+/* ── Nearby chips grid ── */
+.modal-nearby-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Individual nearby chip ── */
+.modal-nearby-chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(124,74,45,0.22);
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--ink);
+  transition: all 0.15s;
+}
+
+.modal-nearby-chip:hover {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+
+/* ── Map wrapper ── */
+#modal-map-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 280px;
+}
+
+/* ── Map canvas ── */
+#modal-map {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+}
+
+/* ── Responsive: narrow viewports ── */
+@media (max-width: 680px) {
+  .modal-body {
+    grid-template-columns: 1fr;
+    padding: 20px 20px 28px;
+  }
+
+  #modal-map-wrap {
+    height: 220px;
+    min-height: 220px;
+    border-radius: 0;
+    margin: 0 -20px;
+    width: calc(100% + 40px);
+  }
+
+  .modal-hero img {
+    height: 200px;
+  }
+}
+
+
+/* ── Checklist system ── */
+.tl-check { position: relative; }
+.tl-check input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 18px; height: 18px; border: 2px solid var(--gold); border-radius: 4px;
+  cursor: pointer; vertical-align: middle; margin-right: 6px; flex-shrink: 0;
+  background: #fff; transition: all 0.15s;
+}
+.tl-check input[type="checkbox"]:checked {
+  background: var(--gold); border-color: var(--gold);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.485 3.515a1 1 0 010 1.414l-7.07 7.07a1 1 0 01-1.415 0l-3.535-3.535a1 1 0 011.414-1.414L5.707 9.878l6.364-6.364a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  background-size: 12px; background-position: center; background-repeat: no-repeat;
+}
+.tl-item.checked .tl-title { text-decoration: line-through; opacity: 0.5; }
+.tl-item.checked .tl-desc, .tl-item.checked .tl-sub { opacity: 0.4; }
+.tl-item.checked .tl-tags { opacity: 0.4; }
+
+/* Progress bar */
+.progress-bar-wrap { background: var(--bg); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
+.progress-track { flex: 1; height: 6px; background: rgba(124,74,45,0.12); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.3s; }
+.progress-text { font-size: 0.8rem; color: var(--muted); white-space: nowrap; font-weight: 600; }
+
+/* ── Google Maps nav button ── */
+.tl-nav-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--gold); text-decoration: none;
+  border: 1px solid rgba(193,68,14,0.2); border-radius: 999px;
+  padding: 3px 10px; margin-top: 6px; transition: all 0.15s; cursor: pointer;
+  background: none;
+}
+.tl-nav-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+.modal-nav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.82rem; color: #fff; background: var(--gold); border: none;
+  border-radius: 10px; padding: 8px 16px; margin-top: 12px; cursor: pointer;
+  text-decoration: none; font-weight: 600;
+}
+.modal-nav-btn:hover { opacity: 0.85; }
+
+/* ── Budget table ── */
+.budget-card { background: var(--paper); border-radius: 16px; padding: 24px 28px; margin-bottom: 28px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.budget-card h3 { font: 700 1.1rem/1.3 "Baskerville Old Face",Georgia,serif; margin-bottom: 16px; }
+.budget-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.budget-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); padding: 6px 0; border-bottom: 1px solid rgba(124,74,45,0.12); }
+.budget-table td { padding: 8px 0; border-bottom: 1px solid rgba(124,74,45,0.06); }
+.budget-table td:nth-child(2) { text-align: right; font-weight: 600; color: var(--ink); }
+.budget-table td:nth-child(3) { text-align: center; width: 40px; }
+.budget-table .budget-cat { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.budget-total { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 2px solid var(--gold); }
+.budget-total-label { font-size: 0.85rem; color: var(--muted); }
+.budget-total-num { font: 700 1.4rem/1 "Baskerville Old Face",Georgia,serif; color: var(--ink); }
+.budget-per-person { font-size: 0.8rem; color: var(--gold); font-weight: 600; margin-top: 4px; text-align: right; }
+
+/* ── Share button ── */
+.share-bar { text-align: center; margin: 32px 0; }
+.share-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border: 2px solid var(--gold); border-radius: 12px;
+  background: none; color: var(--gold); font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+}
+.share-btn:hover { background: var(--gold); color: #fff; }
+.share-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 10px;
+  font-size: 0.85rem; z-index: 9999; opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.share-toast.show { opacity: 1; }
+
+/* ── Plan B card ── */
+.planb-card { background: rgba(74,124,89,0.06); border-radius: 16px; padding: 24px 28px; margin-top: 20px; }
+.planb-card h3 { font: 700 1.1rem/1.3 "Baskerville Old Face",Georgia,serif; margin-bottom: 12px; color: #4a7c59; }
+.planb-item { margin-bottom: 14px; }
+.planb-label { font-size: 0.82rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.planb-text { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+/* ── Restaurant recommendation cards ── */
+.resto-card { background: rgba(233,196,106,0.08); border-radius: 12px; padding: 16px 20px; margin-top: 14px; }
+.resto-card h4 { font-size: 0.82rem; color: var(--gold); margin-bottom: 12px; font-weight: 700; }
+.resto-item { font-size: 0.8rem; color: var(--muted); line-height: 1.6; padding: 8px 0; border-bottom: 1px solid rgba(124,74,45,0.08); }
+.resto-item:last-child { border-bottom: none; padding-bottom: 0; }
+.resto-name { font-weight: 700; color: var(--ink); display: block; margin-bottom: 2px; font-size: 0.85rem; }
+.resto-price { color: var(--gold); font-weight: 600; }
+
+/* ── Prac-card checklist variant ── */
+.prac-list input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none;
+  width: 16px; height: 16px; border: 2px solid var(--gold); border-radius: 3px;
+  cursor: pointer; vertical-align: middle; margin-right: 6px; flex-shrink: 0;
+  background: #fff; transition: all 0.15s;
+}
+.prac-list input[type="checkbox"]:checked {
+  background: var(--gold); border-color: var(--gold);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.485 3.515a1 1 0 010 1.414l-7.07 7.07a1 1 0 01-1.415 0l-3.535-3.535a1 1 0 011.414-1.414L5.707 9.878l6.364-6.364a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  background-size: 10px; background-position: center; background-repeat: no-repeat;
+}
+.prac-list li.checked { opacity: 0.4; text-decoration: line-through; }
+
+
+/* ── Route inline reviews ── */
+.route-reviews { margin-top: 16px; }
+.route-reviews h4 { font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-bottom: 10px; }
+.route-review-item { background: var(--bg); border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; border-left: 3px solid var(--gold); }
+.route-review-en { font-size: 0.85rem; color: var(--ink); font-style: italic; line-height: 1.6; margin-bottom: 4px; }
+.route-review-zh { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+.route-review-src { font-size: 0.72rem; color: var(--gold); margin-top: 6px; }
+
+/* ── Standalone reviews section ── */
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 36px; }
+.reviews-group-title { font: 700 1.1rem/1.3 "Baskerville Old Face",Georgia,serif; margin-bottom: 14px; color: var(--ink); }
+.review-card { background: var(--paper); border-radius: 14px; padding: 18px 22px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); border-left: 3px solid var(--gold); }
+.review-stars { color: #e9c46a; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 6px; }
+.review-en { font-size: 0.88rem; color: var(--ink); font-style: italic; line-height: 1.65; }
+.review-zh { font-size: 0.84rem; color: var(--muted); line-height: 1.6; margin-top: 6px; }
+.review-meta { font-size: 0.72rem; color: var(--gold); margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<nav class="rail">
+  <div class="rail-inner">
+    <span class="rail-logo">长岛 · 四月下旬</span>
+    <ul class="rail-links">
+      <li><a href="#itinerary">行程计划</a></li>
+      <li><a href="#routes">路线</a></li>
+      <li><a href="#destinations">景点</a></li>
+      <li><a href="#practical">实用信息</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <p class="hero-eyebrow">长岛 · 四月下旬 · 从长岛市出发</p>
+      <h1 class="hero-title">金色庄园，春日盛开</h1>
+      <p class="hero-lead">从Nassau County的镀金时代庄园，到蒙托克荒野海岸的春日野花，四月下旬是长岛最美的时节。从长岛市出发，不到两小时车程，一个难忘的周末等待着你。</p>
+    </div>
+    <div class="hero-note">
+      <p>四月下旬是长岛最值得到访的季节。Old Westbury Gardens 于4月1日开放，四月下旬郁金香与樱花正值巅峰；Sands Point Preserve 悬崖步道野花盛开；Oheka Castle 法式花园春意盎然。金色海岸的庄园在午后阳光中流光溢彩，North Fork 产区的首批葡萄酒品鉴也已拉开序幕。</p>
+      <cite>— 编辑手记，2025年春季</cite>
+    </div>
+  </div>
+</section>
+
+<div class="hero-strip">
+  <div class="strip-media">
+    <img src="./assets/greenport.jpg" alt="Greenport harbor in spring" loading="lazy">
+  </div>
+  <div class="strip-body">
+    <p class="strip-label">周末概览</p>
+    <h2 class="strip-h">两天，两段海岸，一个难忘的春天</h2>
+    <p class="strip-p">周六上午探访金色海岸四大庄园——Sands Point、Old Westbury、Oheka Castle、Vanderbilt Museum，傍晚抵达 Greenport 入住。周日双渡轮穿越 Shelter Island，经 Sag Harbor、East Hampton 一路向东，直抵 Montauk 灯塔——长岛的天涯海角，下午原路返程。</p>
+    <div class="strip-tags">
+      <span class="tag">驾车距离：向东 90–130 英里</span>
+      <span class="tag">最佳时间：4月24–27日</span>
+      <span class="tag">从长岛市出发</span>
+      <span class="tag">建议自驾</span>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="itinerary">
+  <div class="section-head">
+    <span class="section-label">行程安排</span>
+    <div>
+      <h2 class="section-title">周末精选行程</h2>
+      <p class="section-sub">两天全安排好了。周六走金色海岸四大庄园到 Greenport，周日双渡轮经 Shelter Island 到 South Fork 直奔 Montauk。</p>
+    </div>
+  </div>
+
+  <div class="day-tabs">
+    <button class="day-tab active" data-panel="day1">第一天 — 金色海岸 &amp; Greenport</button>
+    <button class="day-tab" data-panel="day2">第二天 — Shelter Island &amp; South Fork</button>
+    <button class="day-tab" data-panel="day3">完整周末概览</button>
+  </div>
+
+  <div class="progress-bar-wrap" id="progressBar">
+    <span class="progress-text" id="progressText">准备进度 0/0</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- ── Day 1: Saturday timeline ── -->
+  <div id="day1" class="day-panel active">
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-time">08:00</div>
+        <div class="tl-dot-col"><div class="tl-dot depart"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">从长岛市出发</div>
+          <div class="tl-sub">LIC → LIE I-495 East · Exit 36N → Sands Point</div>
+          <div class="tl-desc">从 Queens Midtown Tunnel 进入 LIE（I-495）东行，Exit 36N 下高速北行约 15 分钟至 Sands Point。早出发可赶上清晨人少的绝佳光线，也让全天行程更宽裕。</div>
+          <div class="tl-tags"><span class="tl-tag">约35分钟车程</span><span class="tl-tag">LIE Exit 36N</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">09:00</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="25">Sands Point Preserve</a></div>
+          <div class="tl-sub">Nassau County · Sands Point · 驾车约27分钟</div>
+          <div class="tl-desc">古根海姆家族旧宅，三座镀金时代建筑（Castle Gould、Hempstead House、Falaise）矗立于长岛海峡悬崖之上，对岸是康涅狄格海岸。崖边步道野花盛开，视野开阔，游客远少于其他庄园——金色海岸最被低估的隐秘之地。</div>
+          <div class="tl-tags"><span class="tl-tag hl">停车 $10</span><span class="tl-tag">悬崖步道</span><span class="tl-tag">约1.5小时</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.857,-73.718" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">10:45</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="11">Old Westbury Gardens</a></div>
+          <div class="tl-sub">Nassau County · Old Westbury · 驾车约15分钟</div>
+          <div class="tl-desc">1906 年查理二世风格庄园，76 英亩英式正式园林。四月下旬郁金香花廊进入巅峰——500 英尺椴树大道两侧郁金香盛放，是长岛春日最标志性的画面。10 点开放，我们在第一波游客散去后到达，光线正好。</div>
+          <div class="tl-tags"><span class="tl-tag hl">门票 $18</span><span class="tl-tag">10点开放</span><span class="tl-tag">约1.5小时</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.784,-73.594" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:30</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="12">Oheka Castle</a></div>
+          <div class="tl-sub">Suffolk County · Huntington · 驾车约20分钟</div>
+          <div class="tl-desc">1919 年法式城堡，127 间房，美国有史以来建造的最大私人住宅之一。《公民凯恩》原型取景地，外观极其壮观。导览约 1 小时，须提前在官网预约（周末场次有限）。可在城堡咖啡厅用午餐。</div>
+          <div class="tl-tags"><span class="tl-tag hl">导览 $30</span><span class="tl-tag hl">须提前预约</span><span class="tl-tag">约1.5小时含午餐</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.861,-73.430" target="_blank" rel="noopener">📍 导航</a>
+          <div class="resto-card">
+            <h4>🍽️ 午餐推荐（庄园附近）</h4>
+            <div class="resto-item"><span class="resto-name">Cafe Baci</span> · 意大利 · <span class="resto-price">人均 $30-50</span> · 距 Old Westbury 2英里，龙虾馄饨和炸鱿鱼圈是招牌，1636 Old Country Rd</div>
+            <div class="resto-item"><span class="resto-name">Cafe in the Woods</span> · 园内简餐 · <span class="resto-price">人均 $10-18</span> · Old Westbury Gardens 内林中咖啡馆，三明治沙拉，逛完直接吃省时间</div>
+            <div class="resto-item"><span class="resto-name">Oheka 城堡咖啡厅</span> · 法式轻食 · <span class="resto-price">人均 $25-35</span> · 导览后直接在城堡内用餐，氛围无敌</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">14:15</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="13">Vanderbilt Museum — Eagles Nest</a></div>
+          <div class="tl-sub">Suffolk County · Centerport · 驾车约10分钟</div>
+          <div class="tl-desc">1910 年范德比尔特家族西班牙复兴风格庄园，俯瞰 Centerport 海湾，附设天文馆。比 Oheka 更私密小众，游客极少。庄园内有航海展示与异域动物标本收藏，别具一格。周五至周日开放。</div>
+          <div class="tl-tags"><span class="tl-tag hl">门票 $14</span><span class="tl-tag">含天文馆</span><span class="tl-tag">约1.25小时</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.890,-73.356" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">16:00</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="8">Briermere Farms — 路边水果派</a></div>
+          <div class="tl-sub">Riverhead · North Fork 入口 · 驾车约35分钟</div>
+          <div class="tl-desc">沿 LIE 东行至 Riverhead，Briermere Farms 的手工水果派在长岛享有传奇地位——草莓奶油派、蓝莓派是招牌。买几个带走，作为今晚在 Greenport 的甜点。</div>
+          <div class="tl-tags"><span class="tl-tag">路边农场摊</span><span class="tl-tag">水果派必买</span><span class="tl-tag">约30分钟</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.937,-72.699" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">17:00</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="7">North Fork 酒庄顺路一站</a></div>
+          <div class="tl-sub">Route 25 沿线 · 驾车向东</div>
+          <div class="tl-desc">从 Riverhead 沿 Route 25 东行前往 Greenport，沿途酒庄随处可见。推荐两选一：<strong>Raphael</strong>（Peconic，托斯卡纳庄园建筑，拍照最好看）或 <strong>Bedell Cellars</strong>（Cutchogue，最知名、最稳妥，Merlot 是招牌）。品鉴一轮即走，不赶时间的话是完美的行程收尾。</div>
+          <div class="tl-tags"><span class="tl-tag">品鉴 $25–35/人</span><span class="tl-tag">可选</span><span class="tl-tag">Raphael 或 Bedell</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=41.030,-72.490" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">18:30</div>
+        <div class="tl-dot-col"><div class="tl-dot stay"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">抵达 <a class="card-link" data-attr="10">Greenport</a> — 入住 &amp; 晚饭</div>
+          <div class="tl-sub">Greenport · North Fork · Suffolk County</div>
+          <div class="tl-desc">放下行李，漫步 Front Street，在 Claudio’s 木栈桥或 Front Street 餐厅享用晚饭。今晚不赶路，Briermere 的水果派可以作为完美句号。</div>
+          <div class="tl-tags"><span class="tl-tag hl">住宿 Greenport</span><span class="tl-tag">Claudio’s 晚饭推荐</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=41.100,-72.362" target="_blank" rel="noopener">📍 导航</a>
+          <div class="resto-card">
+            <h4>🍽️ 晚餐推荐（Greenport）</h4>
+            <div class="resto-item"><span class="resto-name">The Frisky Oyster</span> · 创意海鲜 · <span class="resto-price">人均 $55-80</span> · 北叉最有创意的餐厅，招牌龙虾牛油果春卷，菜单每日更换，27 Front St</div>
+            <div class="resto-item"><span class="resto-name">Noah’s</span> · 小盘+生蚝 · <span class="resto-price">人均 $50-80</span> · 白桌布亲密环境，室外座位看旋转木马，136 Front St</div>
+            <div class="resto-item"><span class="resto-name">Claudio’s</span> · 经典海鲜 · <span class="resto-price">人均 $40-70</span> · 1870年百年老店，维多利亚酒吧+码头露台看日落，111 Main St</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Day 2: Sunday timeline ── -->
+  <div id="day2" class="day-panel">
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-time">08:30</div>
+        <div class="tl-dot-col"><div class="tl-dot depart"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">North Ferry — Greenport → Shelter Island</div>
+          <div class="tl-sub">Greenport 码头 · 步行2分钟 · 5分钟渡轮</div>
+          <div class="tl-desc">从酒店步行或开车2分钟到 North Ferry 码头，全年运营，早晨每15–20分钟一班。四月淡季无需等待，到码头即可上船，5分钟抵达 Shelter Island 北岸。</div>
+          <div class="tl-tags"><span class="tl-tag">渡轮 $14/车</span><span class="tl-tag">步行即达码头</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=41.100,-72.362" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">08:45</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="24">Shelter Island 穿越</a></div>
+          <div class="tl-sub">Mashomack Nature Preserve · Route 114 · 约15分钟</div>
+          <div class="tl-desc">沿 Route 114 穿越小岛，全岛80%是 Mashomack 自然保护区。四月鱼鹰筑巢，白尾鹿路边出没，松林与海湾交替出现。比绕路走 Riverhead 节省约20分钟，且风景远胜公路。</div>
+          <div class="tl-tags"><span class="tl-tag">穿岛约15分钟</span><span class="tl-tag">四月鱼鹰季</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=41.066,-72.321" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">09:05</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">South Ferry → North Haven</div>
+          <div class="tl-sub">Shelter Island 南端 · 5分钟渡轮</div>
+          <div class="tl-desc">从 Shelter Island 南端乘 South Ferry，5 分钟抵达 North Haven，进入 South Fork 区域。两段渡轮加一个小岛，这段路本身就是行程亮点之一。</div>
+          <div class="tl-tags"><span class="tl-tag">渡轮 $14/车</span><span class="tl-tag">两程合计约$35</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=41.050,-72.316" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">09:20</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="9">Sag Harbor 早晨漫步</a></div>
+          <div class="tl-sub">South Fork · Suffolk County · 开车5分钟</div>
+          <div class="tl-desc">从 North Haven 开车5分钟进入 Sag Harbor，早晨的 Main Street 安静而美好。买杯咖啡，看看18世纪捕鲸时代留下的船长府邸，感受与 Greenport 截然不同的南岸气质。</div>
+          <div class="tl-tags"><span class="tl-tag">约30分钟</span><span class="tl-tag">斯坦贝克故居所在地</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.999,-72.294" target="_blank" rel="noopener">📍 导航</a>
+          <div class="resto-card">
+            <h4>☕ 早餐推荐（Sag Harbor）</h4>
+            <div class="resto-item"><span class="resto-name">Estia’s Little Kitchen</span> · 美式西南早午餐 · <span class="resto-price">人均 $20-35</span> · 藏在小木屋里的宝藏店，黄油煎饼和早餐卷饼排长队，供应到下午3点</div>
+            <div class="resto-item"><span class="resto-name">Carissa’s The Bakery</span> · 手工烘焙 · <span class="resto-price">$12-20</span> · James Beard 获奖面包房，火腿芝士可颂必点</div>
+            <div class="resto-item"><span class="resto-name">Grindstone Coffee</span> · 咖啡+甜甜圈 · <span class="resto-price">$5-10</span> · Main St 手工甜甜圈，快速出发首选</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">10:00</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="4">East Hampton Village + Coopers Beach</a></div>
+          <div class="tl-sub">The Hamptons · Suffolk County · 驾车约20分钟</div>
+          <div class="tl-desc">漫步 Main Street 历史街区与 Guild Hall 画廊区，前往屡获全美十佳的 Coopers Beach。四月游客极少，沙滩与海浪几乎只属于你一人，与夏天判若云泥。</div>
+          <div class="tl-tags"><span class="tl-tag">海滩四月免费</span><span class="tl-tag">约1.5小时</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.960,-72.190" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:00</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">午饭 — Amagansett</div>
+          <div class="tl-sub">East Hampton → Montauk 途中 · 驾车约10分钟</div>
+          <div class="tl-desc">沿 Montauk Highway 东行，在 Amagansett 停下午饭。Amagansett Seafood 是路边老牌鱼市，龙虾卷和蛤蜊浓汤是招牌。也可在 East Hampton 村里解决，选择更多。</div>
+          <div class="tl-tags"><span class="tl-tag">约1小时</span><span class="tl-tag">龙虾卷推荐</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=40.975,-72.140" target="_blank" rel="noopener">📍 导航</a>
+          <div class="resto-card">
+            <h4>🍽️ 午餐推荐（East Hampton / Amagansett）</h4>
+            <div class="resto-item"><span class="resto-name">La Fondita</span> · 墨西哥 · <span class="resto-price">人均 $15-25</span> · Tacos al Pastor 菠萝炖猪肉卷饼，便宜好吃，74 Montauk Hwy Amagansett</div>
+            <div class="resto-item"><span class="resto-name">Hampton Chutney Co.</span> · 印度 dosa · <span class="resto-price">人均 $12-17</span> · 107 Newtown Ln，鸡肉芝士牛油果 Dosa $16.95，性价比最高</div>
+            <div class="resto-item"><span class="resto-name">Bostwick’s Chowder House</span> · 海鲜 · <span class="resto-price">人均 $25-45</span> · 龙虾卷 $34，蛤蜊浓汤招牌，277 Pantigo Rd</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">13:30</div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title"><a class="card-link" data-attr="17">Montauk Lighthouse</a></div>
+          <div class="tl-sub">长岛最东端 · 驾车约30分钟</div>
+          <div class="tl-desc">1796 年建，美国第四古老灯塔，华盛顿下令修建。沿 Montauk Highway 一路向东，沙丘松林渐让位于悬崖与大西洋。登顶俯瞰无际海面，是整个行程最壮阔的一幕。</div>
+          <div class="tl-tags"><span class="tl-tag hl">门票 $12</span><span class="tl-tag">约1小时</span><span class="tl-tag">长岛终点</span></div>
+        
+          <a class="tl-nav-btn" href="https://www.google.com/maps/dir/?api=1&destination=41.071,-71.857" target="_blank" rel="noopener">📍 导航</a>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">15:00</div>
+        <div class="tl-dot-col"><div class="tl-dot depart"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">返程出发</div>
+          <div class="tl-sub">Montauk Hwy → Southampton → LIE I-495 West</div>
+          <div class="tl-desc">沿 Montauk Highway 西行，经 Southampton 上 LIE 返回长岛市。四月周日下午基本顺畅，全程约2小时。途中可在 Jones Beach 顺路停留45分钟。</div>
+          <div class="tl-tags"><span class="tl-tag">约2小时车程</span><span class="tl-tag">四月无堵车</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">17:30</div>
+        <div class="tl-dot-col"><div class="tl-dot stay"></div><div class="tl-line"></div></div>
+        <div>
+          <div class="tl-title">抵达长岛市</div>
+          <div class="tl-sub">Queens Midtown Tunnel → LIC</div>
+          <div class="tl-desc">经 Queens Midtown Tunnel 返回长岛市，两天行程圆满结束。全程约220英里，横跨 Nassau、Suffolk 两郡，金色海岸、双渡轮穿岛、荒野东端，一网打尽。</div>
+          <div class="tl-tags"><span class="tl-tag">全程约220英里</span><span class="tl-tag">两天完整长岛</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- ── Day 3: overview ── -->
+  <div id="day3" class="day-panel">
+    <div class="itinerary-card">
+      <div class="itinerary-card-img">
+        <img src="./assets/old_westbury.jpg" alt="Old Westbury Gardens" loading="lazy">
+      </div>
+      <div class="itinerary-card-body">
+        <p class="itinerary-card-time">第一天 · 金色海岸 → Greenport</p>
+        <h3 class="itinerary-card-title">周六亮点</h3>
+        <p class="itinerary-card-desc"><a class="card-link" data-attr="25">Sands Point Preserve</a>（悬崖步道）→ <a class="card-link" data-attr="11">Old Westbury Gardens</a>（$18·郁金香）→ <a class="card-link" data-attr="12">Oheka Castle</a>（$30导览·午餐）→ <a class="card-link" data-attr="13">Vanderbilt Museum</a>（$14）→ Briermere Farms（水果派）→ <a class="card-link" data-attr="10">Greenport</a> 住宿。</p>
+      </div>
+    </div>
+    <div class="itinerary-card">
+      <div class="itinerary-card-img">
+        <img src="./assets/greenport.jpg" alt="Greenport North Fork" loading="lazy">
+      </div>
+      <div class="itinerary-card-body">
+        <p class="itinerary-card-time">第二天 · Greenport → Shelter Island → South Fork</p>
+        <h3 class="itinerary-card-title">周日亮点</h3>
+        <p class="itinerary-card-desc">North Ferry → <a class="card-link" data-attr="24">Shelter Island</a> → South Ferry → <a class="card-link" data-attr="9">Sag Harbor</a>（早餐）→ <a class="card-link" data-attr="4">East Hampton</a> + Coopers Beach → Amagansett 午饭 → <a class="card-link" data-attr="17">Montauk Lighthouse</a>（$12）→ LIE 返程 → 长岛市 17:30。</p>
+      </div>
+    </div>
+    <div class="itinerary-card">
+      <div class="itinerary-card-img">
+        <img src="./assets/old_westbury.jpg" alt="Old Westbury formal garden" loading="lazy">
+      </div>
+      <div class="itinerary-card-body">
+        <p class="itinerary-card-time">出发前准备</p>
+        <h3 class="itinerary-card-title">需要提前预订的项目</h3>
+        <p class="itinerary-card-desc"><a class="card-link" data-attr="12">Oheka Castle</a> 导览须提前在 oheka.com 预约（周末场次有限）；<a class="card-link" data-attr="11">Old Westbury Gardens</a> $18（oldwestburygardens.org）；Greenport 住宿提前订；North/South Ferry 无需预订到码头即上。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="editorial-band">
+    <p class="band-quote">"长岛在四月下旬所提供的一切，新英格兰需要你多开三小时车才能得到——而这里距离皇后区只有35英里。"</p>
+    <p class="band-copy">Nassau County 的镀金时代庄园、North Fork 本季度最早的葡萄酒品鉴、Caumsett 的春日野花、Greenport 的维多利亚式港湾……四月下旬，是长岛以最美的姿态证明自己的时刻——在夏日人潮汹涌与房价暴涨之前。</p>
+  </div>
+</section>
+<section class="route-section" id="routes">
+  <div class="section-head">
+    <span class="section-label">三条路线</span>
+    <div>
+      <h2 class="section-title">选择你的路线</h2>
+      <p class="section-sub">每条路线可单独成行，也可组合成完整周末。根据你的兴趣与驾驶距离灵活搭配。</p>
+    </div>
+  </div>
+
+  <!-- 路线一：金色海岸庄园（Day 1 上午） -->
+  <div class="route-panel">
+    <div class="route-cover">
+      <div class="route-main-img">
+        <img src="./assets/old_westbury.jpg" alt="Old Westbury Gardens formal gardens in spring bloom" loading="lazy">
+      </div>
+      <div class="route-info">
+        <div>
+          <h3 class="route-title">金色海岸四大庄园</h3>
+          <div class="route-meta">
+            <span class="route-chip">Nassau → Suffolk</span>
+            <span class="route-chip">约60英里</span>
+            <span class="route-chip">周六上午至下午</span>
+          </div>
+          <p class="route-desc">从曼哈顿出发，一上午穿越四座镀金时代庄园——古根海姆家族的悬崖城堡、查理二世风格的郁金香花廊、127间房的法式巨宅、俯瞰海湾的西班牙复兴宫殿。这是全美密度最高的镀金时代庄园群，四月下旬正值花园巅峰，每一站都值得驻足。</p>
+        </div>
+        <div class="route-stops">
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Sands Point Preserve</strong> — 9:00 · 古根海姆悬崖城堡 · 停车 $10 · 崖边步道</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Old Westbury Gardens</strong> — 10:45 · 76英亩英式园林 · $18 · 郁金香花廊巅峰</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Oheka Castle</strong> — 12:30 · 127间房法式城堡 · 导览$30 · 含午餐</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Vanderbilt Museum</strong> — 14:15 · 西班牙复兴风格 · $14 · 含天文馆</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="route-gallery">
+      <div class="route-shot">
+        <img src="./assets/destinations/dest_25.jpg" alt="Sands Point Preserve Hempstead House" loading="lazy">
+      </div>
+      <div class="route-shot">
+        <img src="./assets/old_westbury.jpg" alt="Old Westbury Gardens tulips" loading="lazy">
+      </div>
+      <div class="route-shot">
+        <img src="./assets/sands_point.jpg" alt="Oheka Castle exterior" loading="lazy">
+      </div>
+    </div>
+    <div class="route-extension">
+      <h4>午餐建议</h4>
+      <p>Oheka Castle 城堡咖啡厅可在导览后直接用餐（人均 $25-35）；Old Westbury Gardens 内的 Cafe in the Woods 提供轻食简餐（人均 $10-18），适合逛完花园后休息片刻。</p>
+    </div>
+    <div class="route-reviews">
+      <h4>旅行者评价</h4>
+      <div class="route-review-item">
+        <div class="route-review-en">"Incredible! The beach access, castle tours, hiking trails, and beautiful gardens overlooking Long Island Sound."</div>
+        <div class="route-review-zh">太棒了！海滩、城堡导览、徒步步道，还有俯瞰长岛海峡的美丽花园。</div>
+        <div class="route-review-src">— Jack, TripAdvisor ★★★★★ · Sands Point Preserve</div>
+      </div>
+      <div class="route-review-item">
+        <div class="route-review-en">"Beautiful gardens and fountains. Great place to bring a picnic and a camera."</div>
+        <div class="route-review-zh">花园和喷泉都很美。带上野餐和相机来就对了。</div>
+        <div class="route-review-src">— DMGGWoodlandstx, TripAdvisor ★★★★★ · Old Westbury Gardens</div>
+      </div>
+      <div class="route-review-item">
+        <div class="route-review-en">"Our tour guide was extremely knowledgeable and entertaining as she brought to life the lives of the family who built this castle."</div>
+        <div class="route-review-zh">导游非常博学风趣，把建造这座城堡的家族故事讲活了。</div>
+        <div class="route-review-src">— Judith G, TripAdvisor ★★★★★ · Oheka Castle</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 路线二：North Fork 酒乡之路（Day 1 下午） -->
+  <div class="route-panel">
+    <div class="route-cover">
+      <div class="route-main-img">
+        <img src="./assets/greenport.jpg" alt="Greenport harbor at golden hour" loading="lazy">
+      </div>
+      <div class="route-info">
+        <div>
+          <h3 class="route-title">North Fork 酒乡之路</h3>
+          <div class="route-meta">
+            <span class="route-chip">Riverhead → Greenport</span>
+            <span class="route-chip">约40英里</span>
+            <span class="route-chip">周六下午至傍晚</span>
+          </div>
+          <p class="route-desc">庄园游毕，沿 LIE 东行至 Riverhead，进入 North Fork 的田园世界。路边农场摊位飘来水果派香气，Route 25 两侧酒庄星罗棋布，托斯卡纳风格的 Raphael 和经典的 Bedell Cellars 各有千秋。终点 Greenport 是维多利亚风格的港口小镇，Front Street 的晚餐为一天画上完美句号。</p>
+        </div>
+        <div class="route-stops">
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Briermere Farms</strong> — 16:00 · Riverhead · 传奇手工水果派 · 草莓奶油派必买</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Raphael / Bedell Cellars</strong> — 17:00 · Route 25 · 品鉴 $25-35/人 · 可选</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Greenport</strong> — 18:30 · 入住 · Front Street 晚餐 · Claudio's / Frisky Oyster</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="route-gallery">
+      <div class="route-shot">
+        <img src="./assets/jones_beach.jpg" alt="North Fork vineyard" loading="lazy">
+      </div>
+      <div class="route-shot">
+        <img src="./assets/greenport.jpg" alt="Greenport Front Street" loading="lazy">
+      </div>
+      <div class="route-shot">
+        <img src="./assets/montauk_point.jpg" alt="North Fork sunset" loading="lazy">
+      </div>
+    </div>
+    <div class="route-extension">
+      <h4>Greenport 晚餐推荐</h4>
+      <p>The Frisky Oyster（27 Front St，创意海鲜，人均 $55-80）是北叉最有口碑的餐厅；Noah's（136 Front St，小盘+生蚝，人均 $50-80）环境亲密；Claudio's（111 Main St，百年老店，人均 $40-70）码头露台看日落。</p>
+    </div>
+    <div class="route-reviews">
+      <h4>旅行者评价</h4>
+      <div class="route-review-item">
+        <div class="route-review-en">"The North Fork has all the ingredients of the perfect weekend away: good food, fine wine, fun towns to explore."</div>
+        <div class="route-review-zh">North Fork 拥有完美周末的所有要素：美食、美酒、有趣的小镇。</div>
+        <div class="route-review-src">— Fifi and Hop 博客</div>
+      </div>
+      <div class="route-review-item">
+        <div class="route-review-en">"I loved it so much that I want to explore it at least once a year."</div>
+        <div class="route-review-zh">我太喜欢了，想每年至少来一次。</div>
+        <div class="route-review-src">— Dr. Franny the Traveler 博客 · North Fork</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 路线三：双渡轮穿岛 + South Fork（Day 2） -->
+  <div class="route-panel">
+    <div class="route-cover">
+      <div class="route-main-img">
+        <img src="./assets/montauk_point.jpg" alt="Montauk Lighthouse on Atlantic cliffs" loading="lazy">
+      </div>
+      <div class="route-info">
+        <div>
+          <h3 class="route-title">双渡轮穿岛 &amp; 长岛东端</h3>
+          <div class="route-meta">
+            <span class="route-chip">Greenport → Montauk</span>
+            <span class="route-chip">约90英里</span>
+            <span class="route-chip">周日全天</span>
+          </div>
+          <p class="route-desc">从 Greenport 出发，两段渡轮穿越 Shelter Island——鱼鹰在头顶盘旋，白尾鹿在路边漫步。登陆 South Fork 后，Sag Harbor 的捕鲸时代街区、East Hampton 全美十佳的 Coopers Beach、Montauk 灯塔的悬崖全景依次展开。这是长岛最富戏剧性的一天——从宁静海岛到壮阔天涯。</p>
+        </div>
+        <div class="route-stops">
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Shelter Island 双渡轮</strong> — 8:30 · North Ferry + South Ferry · 渡轮合计 $28</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Sag Harbor</strong> — 9:20 · 早餐漫步 · 捕鲸时代船长府邸 · 斯坦贝克故居</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>East Hampton + Coopers Beach</strong> — 10:00 · 全美十佳海滩 · 四月免费停车</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>Montauk Lighthouse</strong> — 13:30 · 1796年建 · $12 · 长岛最东端 · 360°海景</span>
+          </div>
+          <div class="route-stop">
+            <span class="stop-dot"></span>
+            <span><strong>返程</strong> — 15:00 · Montauk Hwy → LIE · 约2小时 · 17:30到家</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="route-gallery">
+      <div class="route-shot">
+        <img src="./assets/old_westbury.jpg" alt="Shelter Island ferry crossing" loading="lazy">
+      </div>
+      <div class="route-shot">
+        <img src="./assets/greenport.jpg" alt="Sag Harbor Main Street" loading="lazy">
+      </div>
+      <div class="route-shot">
+        <img src="./assets/montauk_point.jpg" alt="Montauk Lighthouse" loading="lazy">
+      </div>
+    </div>
+    <div class="route-extension">
+      <h4>午餐推荐（East Hampton / Amagansett）</h4>
+      <p>La Fondita（74 Montauk Hwy Amagansett，墨西哥卷饼，人均 $15-25）便宜好吃；Hampton Chutney Co.（107 Newtown Ln，印度 Dosa，人均 $12-17）性价比最高；Bostwick's Chowder House（277 Pantigo Rd，龙虾卷 $34）是本地经典。</p>
+    </div>
+    <div class="route-reviews">
+      <h4>旅行者评价</h4>
+      <div class="route-review-item">
+        <div class="route-review-en">"As soon as the boat backs away from the dock, you can feel a sense of calm descend."</div>
+        <div class="route-review-zh">船一离开码头，一种宁静感就扑面而来。</div>
+        <div class="route-review-src">— Shelter Island Reporter · North Ferry</div>
+      </div>
+      <div class="route-review-item">
+        <div class="route-review-en">"Consistently rated as one of the best beaches in the US. The sand was soft and so easy to walk on. It\'s quiet and secluded."</div>
+        <div class="route-review-zh">常年被评为全美最佳海滩之一。沙子柔软好走，安静又私密。</div>
+        <div class="route-review-src">— Jonathan C, TripAdvisor ★★★★★ · Coopers Beach</div>
+      </div>
+      <div class="route-review-item">
+        <div class="route-review-en">"Beautiful view, nice view from climbing to the top, and gorgeous trails around it."</div>
+        <div class="route-review-zh">景色绝美，登顶视野极佳，周围的步道也非常漂亮。</div>
+        <div class="route-review-src">— TexasGingerbread, TripAdvisor ★★★★★ · Montauk Lighthouse</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+
+<section class="section" id="destinations">
+  <div class="section-head">
+    <span class="section-label">全部景点</span>
+    <div class="section-head-row">
+      <div>
+        <h2 class="section-title">24 处景点</h2>
+        <p class="section-sub">从镀金时代庄园到海滨沙滩，按类别筛选。</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  
+  <div class="attr-filters">
+    <button class="filter-btn active" data-cat="all">全部</button>
+    <button class="filter-btn" data-cat="beach">海滩</button>
+    <button class="filter-btn" data-cat="food">美食与美酒</button>
+    <button class="filter-btn" data-cat="history">历史与庄园</button>
+    <button class="filter-btn" data-cat="nature">自然</button>
+  </div>
+
+  <div class="attraction-grid" id="attrGrid">
+
+    <div class="attr-card" data-cat="beach" data-photo-id="1">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_1.jpg" alt="Long Beach boardwalk" loading="lazy" >
+        <span class="attr-cat">海滩</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Long Beach</div>
+        <div class="attr-detail">宽阔的大西洋海岸栈桥，全年开放散步，距长岛市33英里。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="beach" data-photo-id="2">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_2.jpg" alt="Jones Beach water tower" loading="lazy" >
+        <span class="attr-cat">海滩</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Jones Beach</div>
+        <div class="attr-detail">1930年代装饰艺术风格浴场，6.5英里海岸线，Jones Beach 剧场夏季演唱会。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="beach" data-photo-id="3">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_3.jpg" alt="Robert Moses State Park" loading="lazy" >
+        <span class="attr-cat">海滩</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Robert Moses State Park</div>
+        <div class="attr-detail">可开车直达沙滩，远眺火岛国家海岸，四月游客极少。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="beach" data-photo-id="4">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_4.jpg" alt="East Hampton beach" loading="lazy" >
+        <span class="attr-cat">海滩</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">East Hampton Beach</div>
+        <div class="attr-detail">美国最优美的村镇海滩之一，步行五分钟可达历史街区与 Guild Hall。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="beach" data-photo-id="5">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_5.jpg" alt="Montauk Beach" loading="lazy" >
+        <span class="attr-cat">海滩</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Montauk Beach</div>
+        <div class="attr-detail">悬崖脚下的粗犷大西洋海岸，春日人少，全年皆可冲浪。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="food" data-photo-id="6">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_6.jpg" alt="Freeport Nautical Mile" loading="lazy" >
+        <span class="attr-cat">美食</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Freeport Nautical Mile</div>
+        <div class="attr-detail">Woodcleft 运河沿岸海鲜餐厅，蛤蜊吧与鱼市，龙虾船就停在码头边。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="food" data-photo-id="7">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_7.jpg" alt="North Fork winery" loading="lazy" >
+        <span class="attr-cat">美食</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">North Fork 酒庄群</div>
+        <div class="attr-detail">60余家酒庄，含 Bedell Cellars、Paumanok、Wolffer Estate，四月首批品鉴开放。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="food" data-photo-id="8">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_8.jpg" alt="Farm stand" loading="lazy" >
+        <span class="attr-cat">美食</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">农场摊位</div>
+        <div class="attr-detail">Harbes Family Farm、Briermere Farms（招牌水果派），路边草莓与时令蔬菜。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="food" data-photo-id="9">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_9.jpg" alt="Sag Harbor" loading="lazy" >
+        <span class="attr-cat">美食</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Sag Harbor</div>
+        <div class="attr-detail">The American Hotel 餐厅与精品 Main Street，East Hampton 更宁静的邻居。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="food" data-photo-id="10">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_10.jpg" alt="Greenport" loading="lazy" >
+        <span class="attr-cat">美食</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Greenport</div>
+        <div class="attr-detail">Front Street 画廊与 North Fork 餐厅，Claudio's 海滨，渡轮直达谢尔特岛。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="11">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_11.jpg" alt="Old Westbury Gardens" loading="lazy" >
+        <span class="attr-cat">庄园</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Old Westbury Gardens</div>
+        <div class="attr-detail">1906 年查理二世风格庄园，英式正式园林，4月1日开放，$18，四月下旬郁金香盛放。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="12">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_12.jpg" alt="Oheka Castle" loading="lazy" >
+        <span class="attr-cat">庄园</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Oheka Castle</div>
+        <div class="attr-detail">1919 年金色海岸127间房大宅，现为酒店，每日导览 $30，《公民凯恩》取景地。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="13">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_13.jpg" alt="Vanderbilt Museum" loading="lazy" >
+        <span class="attr-cat">庄园</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Vanderbilt Museum</div>
+        <div class="attr-detail">1910 年西班牙复兴风格"Eagles Nest"庄园，Centerport 海湾畔，附天文馆，周五至周日开放。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="14">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_14.jpg" alt="Planting Fields Arboretum" loading="lazy" >
+        <span class="attr-cat">庄园</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Planting Fields Arboretum</div>
+        <div class="attr-detail">1920 年代都铎复兴风格 Coe Hall，409 英亩，百花盛放节4月25–26日，$15–18。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="15">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_15.jpg" alt="Sagamore Hill" loading="lazy" >
+        <span class="attr-cat">历史</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Sagamore Hill</div>
+        <div class="attr-detail">西奥多·罗斯福 1885–1919 年故居，国家历史遗址，院落免费，故居导览 $10。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="16">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_16.jpg" alt="Sag Harbor Whaling Era" loading="lazy" >
+        <span class="attr-cat">历史</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Sag Harbor 捕鲸历史</div>
+        <div class="attr-detail">18世纪捕鲸重镇，保存完好的船长府邸，捕鲸博物馆，斯坦贝克的家乡。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="17">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_17.jpg" alt="Montauk Lighthouse" loading="lazy" >
+        <span class="attr-cat">历史</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Montauk Lighthouse</div>
+        <div class="attr-detail">建于1796年，乔治·华盛顿下令修建，内设博物馆，可登顶，悬崖海景壮阔。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="history" data-photo-id="18">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_18.jpg" alt="Stony Brook Village" loading="lazy" >
+        <span class="attr-cat">历史</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Stony Brook Village</div>
+        <div class="attr-detail">1940年代修复的18世纪古镇，磨坊、历史博物馆，依托知名大学的文化小城。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="nature" data-photo-id="19">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_19.jpg" alt="Caumsett State Park" loading="lazy" >
+        <span class="attr-cat">自然</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Caumsett State Park</div>
+        <div class="attr-detail">Lloyd Neck 半岛 1,520 英亩，长岛湾悬崖步道，四五月鱼鹰筑巢，春日野花遍地。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="nature" data-photo-id="20">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_20.jpg" alt="Connetquot River State Park" loading="lazy" >
+        <span class="attr-cat">自然</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Connetquot River Park</div>
+        <div class="attr-detail">东海岸顶级鳟鱼溪流，历史磨坊，古老森林，春季垂钓胜地。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="nature" data-photo-id="21">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_21.jpg" alt="Hither Hills Walking Dunes" loading="lazy" >
+        <span class="attr-cat">自然</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Hither Hills 行走沙丘</div>
+        <div class="attr-detail">罕见的抛物线形沙丘正缓缓向内陆迁移，覆盖森林，蒙托克独有的奇异景观。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="nature" data-photo-id="22">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_22.jpg" alt="Cold Spring Harbor" loading="lazy" >
+        <span class="attr-cat">自然</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Cold Spring Harbor</div>
+        <div class="attr-detail">迷人的海湾村庄，鱼类孵化场，捕鲸博物馆，春季观鸟胜地。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="nature" data-photo-id="23">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_23.jpg" alt="Fire Island National Seashore" loading="lazy" >
+        <span class="attr-cat">自然</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">火岛国家海岸</div>
+        <div class="attr-detail">26英里无车屏障岛，原始海滨野地，从 Bay Shore 乘渡轮前往。</div>
+      </div>
+    </div>
+
+    <div class="attr-card" data-cat="nature" data-photo-id="24">
+      <div class="attr-img">
+        <img src="./assets/destinations/dest_24.jpg" alt="Shelter Island" loading="lazy" >
+        <span class="attr-cat">自然</span>
+      </div>
+      <div class="attr-body">
+        <div class="attr-name">Shelter Island</div>
+        <div class="attr-detail">8,000英亩 Mashomack 自然保护区，骑行天堂，鱼鹰筑巢，North Fork 渡轮可达。</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <div class="budget-card" id="budgetCard">
+    <h3>💰 费用预估（2人）</h3>
+    <table class="budget-table">
+      <thead><tr><th>项目</th><th>费用</th><th></th></tr></thead>
+      <tbody id="budgetBody">
+        <tr><td>Sands Point Preserve 停车</td><td>$10</td><td><input type="checkbox" data-budget="sands"></td></tr>
+        <tr><td>Old Westbury Gardens ×2</td><td>$36</td><td><input type="checkbox" data-budget="westbury"></td></tr>
+        <tr><td>Oheka Castle 导览 ×2</td><td>$60</td><td><input type="checkbox" data-budget="oheka"></td></tr>
+        <tr><td>Vanderbilt Museum ×2</td><td>$28</td><td><input type="checkbox" data-budget="vanderbilt"></td></tr>
+        <tr><td>Montauk Lighthouse ×2</td><td>$24</td><td><input type="checkbox" data-budget="montauk"></td></tr>
+        <tr><td>North Ferry 渡轮</td><td>$18</td><td><input type="checkbox" data-budget="nferry"></td></tr>
+        <tr><td>South Ferry 渡轮</td><td>$17</td><td><input type="checkbox" data-budget="sferry"></td></tr>
+        <tr><td>酒庄品鉴 ×2</td><td>$60</td><td><input type="checkbox" data-budget="wine"></td></tr>
+        <tr><td>住宿一晚（Greenport）</td><td>$350</td><td><input type="checkbox" data-budget="hotel"></td></tr>
+        <tr><td>餐饮两天（估算）</td><td>$200</td><td><input type="checkbox" data-budget="food"></td></tr>
+        <tr><td>油费（~220英里）</td><td>$45</td><td><input type="checkbox" data-budget="gas"></td></tr>
+        <tr><td>停车（杂项）</td><td>$20</td><td><input type="checkbox" data-budget="parking"></td></tr>
+      </tbody>
+    </table>
+    <div class="budget-total">
+      <span class="budget-total-label">预估总计</span>
+      <div>
+        <div class="budget-total-num">$868</div>
+        <div class="budget-per-person">人均 ~$434</div>
+      </div>
+    </div>
+  </div>
+
+<section class="section" id="practical">
+  <div class="section-head">
+    <span class="section-label">出发前</span>
+    <div>
+      <h2 class="section-title">实用信息</h2>
+      <p class="section-sub">从长岛市出发的四月下旬周末，你需要提前了解的一切。</p>
+    </div>
+  </div>
+
+  <div class="practical-grid">
+    <div class="prac-card">
+      <div class="prac-icon">🚗</div>
+      <h3 class="prac-title">出发与交通</h3>
+      <ul class="prac-list">
+        <li>从长岛市走 LIE（I-495）东行，到蒙托克约2小时15分（无堵车）</li>
+        <li>建议周六早上7:30前出发，避开 LIE 早高峰</li>
+        <li>在长岛市或皇后区加满油，Exit 50 以东油价更低</li>
+        <li>停车：州立公园免费，汉普顿斯村镇收费（$3–5/小时）</li>
+        <li>电动车充电：Greenport、Riverhead、East Hampton 均有 ChargePoint</li>
+        <li>返程走 Ocean Parkway 与 Belt Parkway，可避开 LIE 堵车</li>
+      </ul>
+    </div>
+    <div class="prac-card">
+      <div class="prac-icon">🎫</div>
+      <h3 class="prac-title">票务与预订</h3>
+      <ul class="prac-list">
+        <li>Sands Point Preserve：停车 $10，sandspointpreserveconservancy.org</li>
+        <li>Old Westbury Gardens：$18，在 oldwestburygardens.org 购票</li>
+        <li>Oheka Castle 庄园导览：$30/人，在 oheka.com 预订</li>
+        <li>Vanderbilt Museum：$14，四月下旬起周五至周日开放</li>
+        <li>The American Hotel Sag Harbor 晚餐：至少提前两周预订</li>
+        <li>Hither Hills 露营：reserveamerica.com，需提前数月预订</li>
+      </ul>
+    </div>
+    <div class="prac-card">
+      <div class="prac-icon">🌤️</div>
+      <h3 class="prac-title">四月下旬天气</h3>
+      <ul class="prac-list">
+        <li>日间最高气温：14–18°C，夜间最低：7–10°C</li>
+        <li>日出约6:05，日落约19:45——黄金时刻驾车正当其时</li>
+        <li>海水水温：9–11°C——不宜游泳，但海岸散步极佳</li>
+        <li>花粉季高峰，过敏人士请备抗过敏药</li>
+        <li>North Fork 早晨可能有海雾，请稍等雾散再出发</li>
+        <li>降雨概率约40%，建议携带防水外套</li>
+      </ul>
+    </div>
+    <div class="prac-card planb-card">
+      <div class="prac-icon">🌧️</div>
+      <h3 class="prac-title" style="color:#4a7c59">备选方案 — Plan B</h3>
+      <div class="planb-item">
+        <div class="planb-label">下雨天室内替代</div>
+        <div class="planb-text">Oheka Castle 导览（室内1小时）· Tanger Outlets Riverhead（室内购物）· Greenport 画廊 + 咖啡店 · Vanderbilt 天文馆（室内放映）· Stony Brook Village 博物馆群</div>
+      </div>
+      <div class="planb-item">
+        <div class="planb-label">出发晚了 / 堵车</div>
+        <div class="planb-text">跳过 Sands Point，直接去 Old Westbury（10点开门正好）。Day 2 如果晚出发，跳过 Sag Harbor 早晨漫步，直接去 East Hampton。</div>
+      </div>
+      <div class="planb-item">
+        <div class="planb-label">景点关门 / 不开放</div>
+        <div class="planb-text">Vanderbilt 只开周五至周日，如遇关闭可改去 Cold Spring Harbor 鱼类孵化场（$7）或 Caumsett State Park（免费步道）。Montauk Lighthouse 4月才开季，确认官网后再出发。</div>
+      </div>
+      <div class="planb-item">
+        <div class="planb-label">想缩短行程？</div>
+        <div class="planb-text">精简版 Day 1：只去 Old Westbury + Oheka Castle，下午直接到 Greenport。精简版 Day 2：跳过灯塔，East Hampton 午饭后直接返程，3点前到家。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sources" style="margin-bottom:40px;">
+  <div class="section-head">
+    <span class="section-label">参考资料</span>
+    <div>
+      <h2 class="section-title">延伸阅读</h2>
+    </div>
+  </div>
+
+  <div class="sources-grid">
+    <div class="source-card">
+      <h3>景点与公园</h3>
+      <a href="https://www.oldwestburygardens.org" target="_blank" rel="noopener">Old Westbury Gardens — oldwestburygardens.org</a>
+      <a href="https://www.plantingfields.org" target="_blank" rel="noopener">Planting Fields Arboretum — plantingfields.org</a>
+      <a href="https://www.oheka.com" target="_blank" rel="noopener">Oheka Castle — oheka.com</a>
+      <a href="https://www.nps.gov/sahi" target="_blank" rel="noopener">Sagamore Hill National Historic Site — nps.gov/sahi</a>
+      <a href="https://www.vanderbiltmuseum.org" target="_blank" rel="noopener">Vanderbilt Museum — vanderbiltmuseum.org</a>
+      <a href="https://parks.ny.gov" target="_blank" rel="noopener">纽约州立公园 — parks.ny.gov</a>
+      <a href="https://www.reserveamerica.com" target="_blank" rel="noopener">Hither Hills 露营预订 — reserveamerica.com</a>
+    </div>
+    <div class="source-card">
+      <h3>旅行规划</h3>
+      <a href="https://www.liwines.com" target="_blank" rel="noopener">长岛葡萄酒委员会 — liwines.com</a>
+      <a href="https://www.discoverlongisland.com" target="_blank" rel="noopener">长岛旅游局 — discoverlongisland.com</a>
+      <a href="https://www.nps.gov/fiis" target="_blank" rel="noopener">Fire Island National Seashore — nps.gov/fiis</a>
+      <a href="https://www.shelterislandchamber.org" target="_blank" rel="noopener">Shelter Island 商会 — shelterislandchamber.org</a>
+      <a href="https://www.theamericanhotel.com" target="_blank" rel="noopener">The American Hotel Sag Harbor — theamericanhotel.com</a>
+    </div>
+  </div>
+</section>
+
+
+<div class="share-bar">
+  <button class="share-btn" id="shareBtn">📤 分享行程给朋友</button>
+</div>
+<div class="share-toast" id="shareToast">链接已复制到剪贴板</div>
+
+<section class="section" id="reviews">
+  <div class="section-head">
+    <span class="section-label">真实评价</span>
+    <div>
+      <h2 class="section-title">旅行者说</h2>
+      <p class="section-sub">来自 TripAdvisor、Yelp 和旅行博客的真实评论，中英对照</p>
+    </div>
+  </div>
+
+  <h3 class="reviews-group-title">🏛️ 金色海岸庄园</h3>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Incredible! The beach access, castle tours, hiking trails, and beautiful gardens overlooking Long Island Sound."</div>
+      <div class="review-zh">太棒了！海滩、城堡导览、徒步步道，还有俯瞰长岛海峡的美丽花园。</div>
+      <div class="review-meta">— Jack · TripAdvisor · Sands Point Preserve</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Beautiful gardens and fountains. Great place to bring a picnic and a camera."</div>
+      <div class="review-zh">花园和喷泉都很美。带上野餐和相机来就对了。</div>
+      <div class="review-meta">— DMGGWoodlandstx · TripAdvisor · Old Westbury Gardens</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Our tour guide was extremely knowledgeable and entertaining as she brought to life the lives of the family who built this castle."</div>
+      <div class="review-zh">导游非常博学风趣，把建造城堡的家族故事讲活了。</div>
+      <div class="review-meta">— Judith G · TripAdvisor · Oheka Castle</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★☆☆☆</div>
+      <div class="review-en">"Once inside, I was surprised to find that it is essentially a restored mansion with none of the original furnishing or artwork."</div>
+      <div class="review-zh">进去后才发现基本是修复后的空宅，没有原始家具和艺术品。</div>
+      <div class="review-meta">— Lucy Lu · TripAdvisor · Oheka Castle</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"This is a surprise place that has incredible architecture, grounds and surprises inside that blew me away."</div>
+      <div class="review-zh">这是个惊喜之地，建筑、庭院和内部展品都让我震撼。</div>
+      <div class="review-meta">— popsrocks99 · TripAdvisor · Vanderbilt Museum</div>
+    </div>
+  </div>
+
+  <h3 class="reviews-group-title">⛴️ 双渡轮穿 Shelter Island</h3>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"As soon as the boat backs away from the dock, you can feel a sense of calm descend."</div>
+      <div class="review-zh">船一离开码头，一种宁静感就扑面而来。</div>
+      <div class="review-meta">— Shelter Island Reporter</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"About 45 minutes total, no waits for either ferry. Worth the money to avoid Hamptons traffic."</div>
+      <div class="review-zh">全程约45分钟，两班渡轮都没排队。花这点钱避开 Hamptons 堵车完全值得。</div>
+      <div class="review-meta">— TripAdvisor 旅行者 · North Ferry + South Ferry</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"The double ferry crossing makes it feel like a real adventure. Mashomack trails are pristine."</div>
+      <div class="review-zh">双渡轮穿岛让人有真正冒险的感觉。Mashomack 的步道原始而美丽。</div>
+      <div class="review-meta">— Melissa T · TripAdvisor · Shelter Island</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <div class="review-en">"The ferries become the preferable option due to congestion through Riverhead during peak times."</div>
+      <div class="review-zh">高峰期绕 Riverhead 堵车严重，渡轮反而成了更好的选择。</div>
+      <div class="review-meta">— TripAdvisor 论坛 · 路线对比</div>
+    </div>
+  </div>
+
+  <h3 class="reviews-group-title">🏖️ South Fork &amp; Montauk</h3>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Consistently rated as one of the best beaches in the US. The sand was soft and so easy to walk on. It\'s quiet and secluded."</div>
+      <div class="review-zh">常年被评为全美最佳海滩之一。沙子柔软好走，安静又私密。</div>
+      <div class="review-meta">— Jonathan C · TripAdvisor · Coopers Beach</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"WOW! This is one of the prettiest beaches I have ever been to. Very empty, always very clean and well kept."</div>
+      <div class="review-zh">哇！这是我去过的最美海滩之一。人很少，总是很干净。</div>
+      <div class="review-meta">— Kim S · TripAdvisor · Coopers Beach</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Beautiful view, nice view from climbing to the top, and gorgeous trails around it."</div>
+      <div class="review-zh">景色绝美，登顶视野极佳，周围步道也非常漂亮。</div>
+      <div class="review-meta">— TexasGingerbread · TripAdvisor · Montauk Lighthouse</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★☆☆</div>
+      <div class="review-en">"The lighthouse now charges $15 just to walk up the hill, which felt overpriced given the limited services."</div>
+      <div class="review-zh">灯塔现在光走上山就收$15，考虑到设施有限感觉偏贵。</div>
+      <div class="review-meta">— Stephen A · TripAdvisor · Montauk Lighthouse</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"What a wonderful way to spend a Friday afternoon! The drive from NYC to Montauk was absolutely beautiful."</div>
+      <div class="review-zh">多棒的一个周五下午！从纽约到 Montauk 的车程美极了。</div>
+      <div class="review-meta">— Kimberly H · TripAdvisor · Montauk Highway</div>
+    </div>
+  </div>
+
+  <h3 class="reviews-group-title">🍽️ 餐厅</h3>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"I\'m not exaggerating when I say that I wake up many days thinking of having another dosa."</div>
+      <div class="review-zh">我不夸张地说，很多天醒来都在想再吃一个 dosa。</div>
+      <div class="review-meta">— John K · TripAdvisor · Hampton Chutney Co.</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Definitely a must when you\'re in town. We hit La Fondita each trip for great tacos."</div>
+      <div class="review-zh">到了 Amagansett 必去。我们每次来都要吃 La Fondita 的 taco。</div>
+      <div class="review-meta">— Tom C · TripAdvisor · La Fondita</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"The lobster roll at Bostwick\'s was the best I ever had."</div>
+      <div class="review-zh">Bostwick\'s 的龙虾卷是我吃过最好的。</div>
+      <div class="review-meta">— Stephen P · TripAdvisor · Bostwick\'s Chowder House</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"We felt like old friends. The staff is top notch — bartender Jennifer and server Leslie were outstanding."</div>
+      <div class="review-zh">感觉像老朋友一样。服务一流——调酒师 Jennifer 和服务员 Leslie 都非常出色。</div>
+      <div class="review-meta">— Antsgirl85 · TripAdvisor · Noah\'s, Greenport</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Excellent fish tacos and the chicken bacon sandwich feeds two adults."</div>
+      <div class="review-zh">鱼肉 taco 很赞，鸡肉培根三明治分量大到两个人吃。</div>
+      <div class="review-meta">— DadMD · TripAdvisor · Estia\'s Little Kitchen</div>
+    </div>
+  </div>
+
+  <h3 class="reviews-group-title">🍷 North Fork &amp; Greenport</h3>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Just sweet enough, fresh cream, flaky crust. The best pie on earth."</div>
+      <div class="review-zh">甜度刚好，鲜奶油，酥皮。地球上最好的派。</div>
+      <div class="review-meta">— GeorgiaW55 · TripAdvisor · Briermere Farms</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"The atmosphere is quiet and elegant like an Italian estate. The 4 white wines in my flight were so good I bought a case!"</div>
+      <div class="review-zh">氛围安静优雅，像意大利庄园。品鉴的4款白葡萄酒好到我直接买了一箱！</div>
+      <div class="review-meta">— Ann S · TripAdvisor · Raphael Winery</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"This was our favorite winery on the North Fork. The outdoor patio was very comfortable and the vineyard views were beautiful."</div>
+      <div class="review-zh">这是我们在 North Fork 最喜欢的酒庄。户外露台很舒服，葡萄园景色很美。</div>
+      <div class="review-meta">— CherryTravels17 · TripAdvisor · Bedell Cellars</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"The oysters were to die for!! The duck and tuna entrees were delicious."</div>
+      <div class="review-zh">生蚝绝了！！鸭肉和金枪鱼主菜都很好吃。</div>
+      <div class="review-meta">— Margaret H · TripAdvisor · The Frisky Oyster, Greenport</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Great lobster roll typical price, the lobster cobb salad is enormous and has 7 ounces of lobster meat."</div>
+      <div class="review-zh">龙虾卷价格公道，龙虾 Cobb 沙拉份量巨大，有7盎司龙虾肉。</div>
+      <div class="review-meta">— LSDArt · TripAdvisor · Claudio's, Greenport</div>
+    </div>
+  </div>
+
+  <h3 class="reviews-group-title">🗺️ 整体行程</h3>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"A drive from the North Fork to the South Fork is one of summer\'s highlights — one of the top East Coast road trips."</div>
+      <div class="review-zh">从 North Fork 到 South Fork 的自驾是夏日亮点——东海岸最佳公路旅行之一。</div>
+      <div class="review-meta">— Wine Traveler 博客</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"The North Fork has all the ingredients of the perfect weekend away: good food, fine wine, fun towns to explore."</div>
+      <div class="review-zh">North Fork 拥有完美周末的所有要素：美食、美酒、有趣的小镇。</div>
+      <div class="review-meta">— Fifi and Hop 博客</div>
+    </div>
+    <div class="review-card">
+      <div class="review-en">"April offers pennies on the dollar compared to August."</div>
+      <div class="review-zh">四月的花费跟八月比简直是零头。</div>
+      <div class="review-meta">— TripAdvisor 论坛 · 长岛四月旅行</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-en">"Some of the best vacations are those that don\'t require a lot of travel, but make you feel like home is a world away."</div>
+      <div class="review-zh">最好的假期不需要跑很远，却能让你觉得家已在另一个世界。</div>
+      <div class="review-meta">— Fifi and Hop 博客 · North Fork</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>长岛 · 四月下旬</strong> — 编辑周末行程指南 · 从长岛市出发<br>
+  图片来源：Wikimedia Commons 贡献者 · 地图：OpenStreetMap · 数据：纽约州立公园、NPS<br>
+  最佳出行时间：4月24–27日 · 所有价格仅供参考
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+
+// ─── Checklist system ──────────────────────────────────────────────────────────
+var CK_KEY = 'li_checklist_v1';
+var checkState = JSON.parse(localStorage.getItem(CK_KEY) || '{}');
+
+// Add checkboxes to timeline items
+document.querySelectorAll('.tl-item').forEach(function(item, i) {
+  var id = 'tl_' + i;
+  var cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.checked = !!checkState[id];
+  if (cb.checked) item.classList.add('checked');
+  cb.addEventListener('change', function() {
+    checkState[id] = cb.checked;
+    item.classList.toggle('checked', cb.checked);
+    localStorage.setItem(CK_KEY, JSON.stringify(checkState));
+    updateProgress();
+  });
+  var titleEl = item.querySelector('.tl-title');
+  if (titleEl) titleEl.parentNode.insertBefore(cb, titleEl);
+});
+
+
+
+// Add checkboxes to prac-list items (tickets & reservations)
+document.querySelectorAll('.prac-list li').forEach(function(li, i) {
+  var id = 'prac_' + i;
+  var cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.checked = !!checkState[id];
+  if (cb.checked) li.classList.add('checked');
+  cb.addEventListener('change', function() {
+    checkState[id] = cb.checked;
+    li.classList.toggle('checked', cb.checked);
+    localStorage.setItem(CK_KEY, JSON.stringify(checkState));
+    updateProgress();
+  });
+  li.insertBefore(cb, li.firstChild);
+});
+
+function updateProgress() {
+  var all = document.querySelectorAll('.tl-item input[type="checkbox"], .prac-list input[type="checkbox"]');
+  var done = 0;
+  all.forEach(function(cb) { if (cb.checked) done++; });
+  var pct = all.length ? Math.round(done / all.length * 100) : 0;
+  var fill = document.getElementById('progressFill');
+  var text = document.getElementById('progressText');
+  if (fill) fill.style.width = pct + '%';
+  if (text) text.textContent = '准备进度 ' + done + '/' + all.length;
+}
+updateProgress();
+
+// ─── Share button ───────────────────────────────────────────────────────────────
+document.getElementById('shareBtn').addEventListener('click', function() {
+  var data = { title: '长岛周末行程', text: '长岛四月下旬周末行程 — 金色庄园，春日盛开', url: window.location.href };
+  if (navigator.share) {
+    navigator.share(data).catch(function(){});
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      var toast = document.getElementById('shareToast');
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    });
+  }
+});
+
+// ─── Budget paid checkboxes ─────────────────────────────────────────────────────
+var BG_KEY = 'li_budget_v1';
+var budgetState = JSON.parse(localStorage.getItem(BG_KEY) || '{}');
+document.querySelectorAll('[data-budget]').forEach(function(cb) {
+  var id = cb.dataset.budget;
+  cb.checked = !!budgetState[id];
+  cb.addEventListener('change', function() {
+    budgetState[id] = cb.checked;
+    localStorage.setItem(BG_KEY, JSON.stringify(budgetState));
+  });
+});
+
+// ─── Modal nav button ───────────────────────────────────────────────────────────
+
+</script>
+<div id="attr-modal" hidden>
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-inner" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modalClose" aria-label="关闭">&#x2715;</button>
+    <div class="modal-hero">
+      <img id="modal-img" src="" alt="" loading="eager">
+    </div>
+    <div class="modal-body">
+      <div class="modal-info">
+        <span class="modal-cat" id="modal-cat"></span>
+        <h2 class="modal-name" id="modal-name"></h2>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-detail" id="modal-detail"></div>
+        <a class="modal-nav-btn" id="modal-nav-btn" href="#" target="_blank" rel="noopener">📍 打开 Google Maps 导航</a>
+        <div class="modal-rating-block" id="modal-rating-block">
+          <div class="modal-rating-summary" id="modal-rating-summary"></div>
+          <div class="modal-review-list" id="modal-review-list"></div>
+        </div>
+        <p class="modal-nearby-title">周边景点</p>
+        <div class="modal-nearby-grid" id="modal-nearby"></div>
+      </div>
+      <div id="modal-map-wrap">
+        <div id="modal-map"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Photo data (local files) ──────────────────────────────────────────────────
+var PHOTOS = {
+  1:  { url: "./assets/destinations/dest_1.jpg",  alt: "Long Beach boardwalk" },
+  2:  { url: "./assets/destinations/dest_2.jpg",  alt: "Jones Beach water tower" },
+  3:  { url: "./assets/destinations/dest_3.jpg",  alt: "Robert Moses State Park" },
+  4:  { url: "./assets/destinations/dest_4.jpg",  alt: "East Hampton beach" },
+  5:  { url: "./assets/destinations/dest_5.jpg",  alt: "Montauk Beach" },
+  6:  { url: "./assets/destinations/dest_6.jpg",  alt: "Freeport Nautical Mile" },
+  7:  { url: "./assets/destinations/dest_7.jpg",  alt: "North Fork winery" },
+  8:  { url: "./assets/destinations/dest_8.jpg",  alt: "Sagamore Hill" },
+  9:  { url: "./assets/destinations/dest_9.jpg",  alt: "Sag Harbor aerial view" },
+  10: { url: "./assets/destinations/dest_10.jpg", alt: "Greenport station" },
+  11: { url: "./assets/destinations/dest_11.jpg", alt: "Old Westbury Gardens" },
+  12: { url: "./assets/destinations/dest_12.jpg", alt: "Oheka Castle exterior" },
+  13: { url: "./assets/destinations/dest_13.jpg", alt: "Vanderbilt Museum" },
+  14: { url: "./assets/destinations/dest_14.jpg", alt: "Planting Fields Coe Hall" },
+  15: { url: "./assets/destinations/dest_15.jpg", alt: "Sagamore Hill" },
+  16: { url: "./assets/destinations/dest_16.jpg", alt: "Sag Harbor First Presbyterian Church" },
+  17: { url: "./assets/destinations/dest_17.jpg", alt: "Montauk Lighthouse" },
+  18: { url: "./assets/destinations/dest_18.jpg", alt: "Stony Brook Grist Mill" },
+  19: { url: "./assets/destinations/dest_19.jpg", alt: "Caumsett State Park" },
+  20: { url: "./assets/destinations/dest_20.jpg", alt: "Connetquot River Park" },
+  21: { url: "./assets/destinations/dest_21.jpg", alt: "Hither Hills Walking Dunes" },
+  22: { url: "./assets/destinations/dest_22.jpg", alt: "Cold Spring Harbor" },
+  23: { url: "./assets/destinations/dest_23.jpg", alt: "Fire Island beach" },
+  24: { url: "./assets/destinations/dest_24.jpg", alt: "Shelter Island beach" }
+};
+
+// ─── Populate photo cards ──────────────────────────────────────────────────────
+document.querySelectorAll('[data-photo-id]').forEach(function(card) {
+  var id = parseInt(card.dataset.photoId);
+  var p = PHOTOS[id];
+  if (p) {
+    var img = card.querySelector('.attr-img img');
+    if (img) { img.src = p.url; img.alt = p.alt; }
+  }
+});
+
+// ─── Filter buttons ────────────────────────────────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    this.classList.add('active');
+    var cat = this.dataset.cat;
+    document.querySelectorAll('.attr-card').forEach(function(card) {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+});
+
+// ─── Day tabs ──────────────────────────────────────────────────────────────────
+document.querySelectorAll('.day-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.day-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.day-panel').forEach(function(p) { p.classList.remove('active'); });
+    this.classList.add('active');
+    var panel = document.getElementById(this.dataset.panel);
+    if (panel) panel.classList.add('active');
+  });
+});
+
+// ─── Leaflet map ───────────────────────────────────────────────────────────────
+var map;
+
+var mapEl = document.getElementById('map');
+if (mapEl && typeof L !== 'undefined') {
+  map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false })
+    .setView([40.95, -72.95], 9);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Day 1 route (orange): LIC → Sands Point → Old Westbury → Oheka → Vanderbilt → Briermere → Wine → Greenport
+  var day1Route = [
+    [40.742, -73.948],   // LIC
+    [40.857, -73.718],   // Sands Point Preserve
+    [40.784, -73.594],   // Old Westbury Gardens
+    [40.861, -73.430],   // Oheka Castle
+    [40.890, -73.356],   // Vanderbilt Museum
+    [40.937, -72.699],   // Briermere Farms
+    [41.030, -72.490],   // North Fork wine
+    [41.100, -72.362]    // Greenport
+  ];
+
+  // Day 2 route: Greenport → Shelter Island → Sag Harbor → East Hampton → Montauk → LIC
+  var day2Route = [
+    [41.100, -72.362],   // Greenport
+    [41.080, -72.336],   // Shelter Island North Ferry
+    [41.050, -72.316],   // Shelter Island South Ferry
+    [41.010, -72.310],   // North Haven
+    [40.999, -72.294],   // Sag Harbor
+    [40.960, -72.190],   // East Hampton
+    [40.975, -72.140],   // Amagansett
+    [41.071, -71.857],   // Montauk Lighthouse
+    [40.742, -73.948]    // Return to LIC
+  ];
+
+  // Numbered stop markers with driving time tooltips
+  function stopIcon(num, color, timeLabel) {
+    var timeHtml = timeLabel ? '<div style="font-size:9px;white-space:nowrap;margin-top:2px;color:' + color + ';font-weight:600;text-align:center;pointer-events:none;">' + timeLabel + '</div>' : '';
+    return L.divIcon({
+      html: '<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">' +
+        '<div style="width:22px;height:22px;border-radius:50%;background:' + color + ';color:#fff;font:700 11px/22px sans-serif;text-align:center;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);pointer-events:auto;">' + num + '</div>' +
+        timeHtml + '</div>',
+      className: '', iconSize: [60, timeLabel ? 38 : 22], iconAnchor: [30, timeLabel ? 19 : 11]
+    });
+  }
+
+  var d1Names = ['出发','Sands Point','Old Westbury','Oheka Castle','Vanderbilt','Briermere','酒庄','Greenport'];
+  var d1Labels = ['S','1','2','3','4','5','6','G'];
+  var d1Attrs  = [null, 25, 11, 12, 13, 8, 7, 10];
+  var d2Names = ['Greenport','N. Ferry','Shelter Is.','N. Haven','Sag Harbor','East Hampton','Amagansett','Montauk','回LIC'];
+  var d2Labels = ['G','1','2','3','4','5','6','7','H'];
+  var d2Attrs  = [10, null, 24, null, 9, 4, null, 17, null];
+
+  // Fetch real road route from OSRM and draw on map
+  function fetchRoute(coords, color, labels, names, attrs) {
+    var osrmCoords = coords.map(function(c) { return c[1] + ',' + c[0]; }).join(';');
+    var url = 'https://router.project-osrm.org/route/v1/driving/' + osrmCoords + '?overview=full&geometries=geojson&steps=false&annotations=duration,distance';
+
+    fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.code !== 'Ok' || !data.routes || !data.routes[0]) {
+        // Fallback: draw straight lines
+        L.polyline(coords, { color: color, weight: 4, opacity: 0.8 }).addTo(map);
+        coords.forEach(function(ll, i) {
+          var m = L.marker(ll, { icon: stopIcon(labels[i], color) }).addTo(map);
+          if (attrs[i]) (function(attrId) { m.on('click', function() { openAttrModal(attrId); }); })(attrs[i]);
+        });
+        return;
+      }
+      var route = data.routes[0];
+      var geojson = route.geometry;
+      // Draw actual road route
+      L.geoJSON(geojson, {
+        style: { color: color, weight: 4, opacity: 0.85 }
+      }).addTo(map);
+
+      // Get leg durations for tooltips
+      var legs = route.legs || [];
+      coords.forEach(function(ll, i) {
+        var timeLabel = '';
+        if (i > 0 && legs[i - 1]) {
+          var mins = Math.round(legs[i - 1].duration / 60);
+          timeLabel = mins + '分钟';
+        }
+        var tooltip = '<b>' + names[i] + '</b>';
+        if (timeLabel) tooltip += '<br><span style="color:' + color + '">🚗 ' + timeLabel + '</span>';
+        if (i > 0 && legs[i - 1]) {
+          var km = (legs[i - 1].distance / 1000).toFixed(1);
+          tooltip += '<br><span style="color:#888;font-size:11px">' + km + ' km</span>';
+        }
+        var m = L.marker(ll, { icon: stopIcon(labels[i], color, i > 0 ? timeLabel : '') }).addTo(map);
+        m.bindTooltip(tooltip, { direction: 'top', offset: [0, -20] });
+        if (attrs[i]) (function(attrId) { m.on('click', function() { openAttrModal(attrId); }); })(attrs[i]);
+      });
+    }).catch(function(err) {
+      console.warn('OSRM route fetch failed, using straight lines:', err);
+      L.polyline(coords, { color: color, weight: 4, opacity: 0.8, dashArray: '10 12' }).addTo(map);
+      coords.forEach(function(ll, i) {
+        var m = L.marker(ll, { icon: stopIcon(labels[i], color) }).addTo(map);
+        if (attrs[i]) (function(attrId) { m.on('click', function() { openAttrModal(attrId); }); })(attrs[i]);
+      });
+    });
+  }
+
+  fetchRoute(day1Route, '#c1440e', d1Labels, d1Names, d1Attrs);
+  // Stagger Day 2 fetch to avoid OSRM rate limiting
+  setTimeout(function() {
+    fetchRoute(day2Route, '#2d6a7c', d2Labels, d2Names, d2Attrs);
+  }, 1500);
+
+}
+
+
+var ATTRACTION_DATA = {
+  1: {
+    name: 'Long Beach',
+    catLabel: '海滩',
+    cat: 'beach',
+    ll: [40.588, -73.660],
+    desc: '长滩拥有绵延数英里的大西洋白沙海岸，宽阔的木栈桥全年对外开放，无论冬日漫步还是夏日戏浪皆相宜。小城氛围轻松惬意，咖啡馆与冲浪店林立于海滨大道，是纽约都市人最触手可及的海边逃离地。夏季日落时分，天边霞光将整片沙滩染成橘红，令人流连忘返。',
+    detail: '免费 · Nassau County · 距LIC约33英里',
+    nearby: [2, 3],
+    rating: 4.3,
+    reviews: [
+      { author: 'Sarah M.', stars: 5, text: 'The boardwalk at sunset is absolutely magical. One of the best beaches this close to the city.' },
+      { author: 'David L.', stars: 4, text: 'Great beach, clean sand. Parking can be tricky on summer weekends but spring is perfect.' },
+      { author: 'Jenny K.', stars: 4, text: 'Love the laid-back vibe. The surf shops and cafes along the strip are charming.' }
+    ]
+  },
+  2: {
+    name: 'Jones Beach',
+    catLabel: '海滩',
+    cat: 'beach',
+    ll: [40.598, -73.499],
+    desc: '琼斯海滩是二十世纪三十年代装饰艺术风格的杰作，标志性水塔与典雅浴场建筑至今完好如初，令人仿佛踏入复古明信片之中。长达6.5英里的海岸线兼顾游泳、风筝冲浪与家庭野餐，夏季还有露天演唱会在此举办，是全纽约最受欢迎的公共海滩之一。建议避开七八月正午高峰，清晨或傍晚前来方能尽享宁静。',
+    detail: '停车 $8 · Robert Moses State Pkwy · 距LIC约35英里',
+    nearby: [1, 3],
+    rating: 4.5,
+    reviews: [
+      { author: 'Mike T.', stars: 5, text: 'The art deco architecture is stunning. Best public beach facility in the entire state.' },
+      { author: 'Lisa R.', stars: 4, text: 'Huge beach with plenty of space. The outdoor concerts in summer are a highlight.' },
+      { author: 'Chris P.', stars: 5, text: 'Went in April — practically empty, gorgeous. A completely different experience from summer crowds.' }
+    ]
+  },
+  3: {
+    name: 'Robert Moses State Park',
+    catLabel: '海滩',
+    cat: 'beach',
+    ll: [40.630, -73.264],
+    desc: '罗伯特·摩西州立公园是长岛最具特色的海滨体验之一，游客可直接驾车驶上沙滩，在海浪声中享用午餐。公园位于Fire Island国家海岸的西端入口，壮观的Fire Island灯塔近在咫尺，步行即可抵达。春秋两季人潮散去后，这片广袤沙丘与野生海草构成的景致更显原始动人。',
+    detail: '停车 $8 · Ocean Pkwy 西段终点 · 距LIC约50英里',
+    nearby: [1, 2, 23],
+    rating: 4.4,
+    reviews: [
+      { author: 'Tom H.', stars: 5, text: 'You can drive right onto the beach! The Fire Island lighthouse nearby is an amazing bonus.' },
+      { author: 'Anna W.', stars: 4, text: 'Beautiful park with wild dunes. Off-season is the best time to visit for peace and quiet.' },
+      { author: 'Kevin S.', stars: 4, text: 'Great fishing spot too. The sunset views from the western tip are incredible.' }
+    ]
+  },
+  4: {
+    name: 'East Hampton Beach',
+    catLabel: '海滩',
+    cat: 'beach',
+    ll: [40.960, -72.245],
+    desc: '东汉普顿的库珀斯海滩多次荣登全美十佳，细白的石英沙与湛蓝透彻的海水令无数游客念念不忘。步行穿过历史街区便可抵达，沿途可欣赏十九世纪风格的华美庄园与精品画廊。夏季须提前购买停车许可，而晚春或初秋造访则能以更悠闲的节奏感受这片举世闻名的海岸。',
+    detail: '停车 $30/天（夏季） · 距 Sag Harbor 20分钟 · 距LIC约95英里',
+    nearby: [5, 16],
+    rating: 4.7,
+    reviews: [
+      { author: 'Rachel G.', stars: 5, text: 'Coopers Beach lives up to the hype. The sand is impossibly fine and white.' },
+      { author: 'James B.', stars: 5, text: 'Visited in late April — no crowds, free parking, and the water was crystal clear.' },
+      { author: 'Nicole F.', stars: 4, text: 'Beautiful beach but summer parking is $30/day. Go in spring or fall for the real experience.' }
+    ]
+  },
+  5: {
+    name: 'Montauk Beach',
+    catLabel: '海滩',
+    cat: 'beach',
+    ll: [41.050, -71.970],
+    desc: '蒙托克海滩倚靠巍峨悬崖，面朝辽阔大西洋，是长岛最具野性美感的海岸线，全年皆有冲浪好手在此劈波斩浪。步行十分钟便可抵达始建于1796年的古老灯塔，两者构成蒙托克最标志性的视觉组合。秋冬季节涌浪更为壮观，喜爱摄影的旅人不妨选在黎明时分前来，捕捉金色晨光中的悬崖轮廓。',
+    detail: '免费 · 距灯塔步行10分钟 · 距LIC约115英里',
+    nearby: [4, 17],
+    rating: 4.5,
+    reviews: [
+      { author: 'Steve C.', stars: 5, text: 'The cliffs behind the beach make this feel like another world. Surfers year-round.' },
+      { author: 'Maria L.', stars: 4, text: 'Raw, wild beauty. The walk to the lighthouse from the beach is stunning.' },
+      { author: 'Alex D.', stars: 5, text: 'Best sunrise spot on Long Island, hands down. The dramatic cliffs are unforgettable.' }
+    ]
+  },
+  6: {
+    name: 'Freeport Nautical Mile',
+    catLabel: '美食',
+    cat: 'food',
+    ll: [40.648, -73.578],
+    desc: 'Woodcleft运河沿岸汇聚了十余家新鲜海鲜餐厅，龙虾船就停靠在码头一侧，从捕捞到餐桌的距离不过数步之遥。这里的海鲜市场可以自选活蟹与生蚝，现场烹饪后坐在户外露台边吹海风边享用，是地道的长岛渔港体验。夏季傍晚人气最旺，建议赶在日落前落座，霞光映照运河水面时分外迷人。',
+    detail: '全年营业 · Nassau County · 距LIC约35英里',
+    nearby: [1, 2],
+    rating: 4.1,
+    reviews: [
+      { author: 'Pete R.', stars: 4, text: 'Fresh seafood right off the boat. The outdoor seating along the canal is great.' },
+      { author: 'Linda M.', stars: 4, text: 'A real local gem. Get the lobster roll and watch the fishing boats come in.' },
+      { author: 'John W.', stars: 4, text: 'Not fancy but authentic. The fish market lets you pick your own catch and they cook it for you.' }
+    ]
+  },
+  7: {
+    name: 'North Fork 酒庄群',
+    catLabel: '美食',
+    cat: 'food',
+    ll: [41.027, -72.474],
+    desc: 'North Fork产区绵延二十英里，六十余家精品酒庄散落于葡萄园之间，以清爽的长相思与醇厚的梅洛在国际酒坛崭露头角。每家酒庄风格各异，或古朴农庄或现代品鉴室，漫游其间不仅能感受葡萄酒文化，更可俯瞰长岛湾的壮阔水景。四月下旬至十月是最佳造访季节，建议租车或参加专属品酒之旅，尽情探索这片东海岸的勃艮第。',
+    detail: '品鉴约 $25–40/人 · 四月下旬首批开放 · 距LIC约85英里',
+    nearby: [9, 10],
+    rating: 4.6,
+    reviews: [
+      { author: 'Karen H.', stars: 5, text: 'Feels like Napa but without the pretension. Bedell and Raphael are must-visits.' },
+      { author: 'Dan S.', stars: 5, text: 'We hit four wineries in one afternoon. Each had a completely different character.' },
+      { author: 'Amy Z.', stars: 4, text: 'The Merlots here rival anything from California. Beautiful vineyard views of the Sound.' }
+    ]
+  },
+  8: {
+    name: '农场摊位 (Farm Stands)',
+    catLabel: '美食',
+    cat: 'food',
+    ll: [40.920, -72.680],
+    desc: '沿Route 25行驶，路边一座座色彩鲜艳的农场摊位记录着长岛北叉的四季更迭，春末的草莓、夏日的甜玉米与秋天的南瓜各领风骚。Harbes Family Farm以南瓜迷宫和亲子采摘闻名，而Briermere Farms那一整排手工水果派更是令无数驱车专程而来的纽约客念念不忘。建议在周末清晨出发，货色最为新鲜，也能赶上各家摊位最热闹的市集氛围。',
+    detail: '摊位通常 $5–20 · 春季周末开放 · 沿Route 25分布',
+    nearby: [7, 10],
+    rating: 4.4,
+    reviews: [
+      { author: 'Bob K.', stars: 5, text: 'Briermere Farms pies are legendary for a reason. The strawberry cream pie changed my life.' },
+      { author: 'Wendy T.', stars: 4, text: 'Love stopping at the roadside stands in spring. Fresh strawberries you can\'t find in the city.' },
+      { author: 'Greg M.', stars: 4, text: 'Harbes Farm is great for families. The farm stands are scattered all along Route 25.' }
+    ]
+  },
+  9: {
+    name: 'Sag Harbor',
+    catLabel: '美食',
+    cat: 'food',
+    ll: [40.999, -72.294],
+    desc: '萨格港是汉普顿地区最有灵魂的小镇，少了东汉普顿的喧嚣与炫耀，多了一份真实的文艺气息与历史质感。Main Street两侧林立着独立书店、艺术画廊与精品餐厅，百年历史的The American Hotel至今仍是长岛最值得一订的餐桌。傍晚时分在港口散步，望着游艇在余晖中轻摇，这里的悠然节奏会让人忘记自己距纽约市不过两小时车程。',
+    detail: 'The American Hotel 须提前2周预订 · 距LIC约95英里',
+    nearby: [7, 16],
+    rating: 4.6,
+    reviews: [
+      { author: 'Emily S.', stars: 5, text: 'Sag Harbor has soul. The American Hotel dinner was one of the best meals of my life.' },
+      { author: 'Mark J.', stars: 5, text: 'The most charming town in the Hamptons. Walk Main Street at sunset — pure magic.' },
+      { author: 'Diana C.', stars: 4, text: 'Less flashy than East Hampton but far more authentic. The bookshops and galleries are lovely.' }
+    ]
+  },
+  10: {
+    name: 'Greenport',
+    catLabel: '美食',
+    cat: 'food',
+    ll: [41.100, -72.362],
+    desc: '格林港是North Fork最具活力的港口小镇，Front Street沿线画廊、手工艺品店与精酿酒吧将这座渔村打造成了文艺周末的理想目的地。创立于1870年的Claudio\'s餐厅傲立港口，是长岛历史最悠久的餐厅之一，活蟹与生蚝是当仁不让的招牌。从这里搭乘渡轮可直达Shelter Island，将两处风景截然不同的目的地串联成一日精华之旅。',
+    detail: '渡轮直达 Shelter Island · 距LIC约90英里',
+    nearby: [7, 24],
+    rating: 4.5,
+    reviews: [
+      { author: 'Paul N.', stars: 5, text: 'Greenport is the perfect base for North Fork. Claudio\'s on the waterfront is a must.' },
+      { author: 'Susan B.', stars: 4, text: 'Walkable, artsy, great food scene. The carousel and harbor views are delightful.' },
+      { author: 'Tim W.', stars: 5, text: 'Took the ferry to Shelter Island from here. The whole area feels like New England.' }
+    ]
+  },
+  11: {
+    name: 'Old Westbury Gardens',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.784, -73.594],
+    desc: '奥尔德韦斯特伯里花园是长岛镀金时代遗产中最精致的一颗明珠，1906年落成的查理二世风格庄园被76英亩精心打理的英式园林所环抱。四月下旬郁金香大道进入全年巅峰，数千株郁金香将石板小径渲染成浓烈的色彩画卷，是摄影与踏青的双重胜地。宏伟的宅邸内部亦对外开放，华美的古董家具与艺术藏品令人一窥二十世纪初上流社会的奢靡日常。',
+    detail: '门票 $18 · 4月1日开放 · Nassau County · 距LIC约28英里',
+    nearby: [12, 14, 15],
+    rating: 4.7,
+    reviews: [
+      { author: 'Catherine L.', stars: 5, text: 'The tulip allée in late April is breathtaking. Best garden experience on the East Coast.' },
+      { author: 'Robert F.', stars: 5, text: 'Felt like stepping into an English countryside estate. The mansion interior is equally impressive.' },
+      { author: 'Julia M.', stars: 4, text: 'Go right when it opens at 10am for the best light and smallest crowds. Photography paradise.' }
+    ]
+  },
+  12: {
+    name: 'Oheka Castle',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.861, -73.430],
+    desc: 'Oheka城堡是美国第二大私人宅邸，1919年由金融大亨Otto Kahn耗费巨资兴建，127间房的法式城堡气势磅礴、雕梁画栋。这座传奇建筑曾是好莱坞电影《公民凯恩》的取景灵感来源，如今摇身一变成为长岛最负盛名的豪华酒店与婚礼场所。即便不入住，预约参加导览亦可穿越时光，细细品味那个爵士年代的纸醉金迷。',
+    detail: '导览 $30 · 住宿从 $450 起 · Huntington · 距LIC约40英里',
+    nearby: [11, 13, 15],
+    rating: 4.5,
+    reviews: [
+      { author: 'Andrew P.', stars: 5, text: 'Jaw-dropping. The scale of this castle is hard to believe until you see it in person.' },
+      { author: 'Michelle K.', stars: 4, text: 'The guided tour is fascinating — so much Gatsby-era history. Book ahead for weekends.' },
+      { author: 'Brian T.', stars: 5, text: 'Had lunch at the castle café after the tour. The formal gardens alone are worth the visit.' }
+    ]
+  },
+  13: {
+    name: 'Vanderbilt Museum',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.890, -73.356],
+    desc: '范德比尔特博物馆坐落于Centerport海湾畔，1910年落成的西班牙复兴风格庄园"Eagles Nest"曾是范德比尔特家族的避暑行宫，园内奇珍异宝与海洋标本藏品令人目不暇接。庄园依山而建，从露台俯瞰长岛湾的全景令人心旷神怡，春夏两季景色尤为迷人。附设的天文馆定期举办星象放映与天文讲座，是亲子出游的绝佳补充项目。',
+    detail: '门票 $14 · 周五至周日 · 四月下旬起开放 · 距LIC约42英里',
+    nearby: [12, 18, 22],
+    rating: 4.3,
+    reviews: [
+      { author: 'Nancy G.', stars: 5, text: 'The bay views from Eagles Nest are spectacular. Much less crowded than other Gold Coast estates.' },
+      { author: 'Frank D.', stars: 4, text: 'The marine specimen collection is surprisingly fascinating. Kids loved the planetarium show.' },
+      { author: 'Sharon W.', stars: 4, text: 'A hidden gem. The Spanish Revival architecture is gorgeous and the grounds are peaceful.' }
+    ]
+  },
+  14: {
+    name: 'Planting Fields Arboretum',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.848, -73.534],
+    desc: '植树田植物园保留了1920年代都铎复兴风格的Coe Hall庄园与409英亩四季变幻的植物景观，温室内常年盛开的山茶花是冬春之交最令人惊喜的发现。每年四月下旬举办的百花盛放节汇聚了来自全球的球茎植物爱好者，郁金香、水仙与风信子同台争艳，蔚为壮观。漫步于古木参天的林间小径，历史建筑与自然生态交融共生，是长岛最适合深度慢游的目的地之一。',
+    detail: '门票 $15–18 · 节日须提前购票 · Nassau County · 距LIC约30英里',
+    nearby: [11, 15, 19],
+    rating: 4.5,
+    reviews: [
+      { author: 'Helen R.', stars: 5, text: 'The spring flower festival is extraordinary. 200+ varieties of bulbs in full bloom.' },
+      { author: 'George M.', stars: 4, text: 'Coe Hall is beautiful inside. The camellia greenhouse in early spring is a hidden treasure.' },
+      { author: 'Betty S.', stars: 5, text: 'We spent three hours just wandering the grounds. Every turn reveals a new garden room.' }
+    ]
+  },
+  15: {
+    name: 'Sagamore Hill',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.881, -73.487],
+    desc: 'Sagamore Hill是美国第二十六任总统西奥多·罗斯福的挚爱之所，他在此度过了从1885年至1919年生命终点的漫长岁月，宅邸被称为"夏日白宫"。故居内原汁原味地保留了罗斯福的图书馆、狩猎战利品与家族生活痕迹，每一个细节都在讲述这位传奇总统的性情与志趣。院落免费开放，站在草坪远眺Oyster Bay海湾的旖旎风光，不难理解为何他将此处视为灵魂的归宿。',
+    detail: '院落免费 · 故居导览 $10 · Nassau County · 距LIC约35英里',
+    nearby: [11, 12, 14],
+    rating: 4.4,
+    reviews: [
+      { author: 'Richard H.', stars: 5, text: 'Walking through TR\'s actual home gives you chills. History comes alive here.' },
+      { author: 'Mary K.', stars: 4, text: 'The free grounds are lovely — great views of Oyster Bay. House tour requires timed entry.' },
+      { author: 'Edward J.', stars: 4, text: 'A must for history buffs. The library with original books and hunting trophies is remarkable.' }
+    ]
+  },
+  16: {
+    name: 'Sag Harbor Whaling History',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.999, -72.294],
+    desc: '萨格港曾是十八至十九世纪美国东海岸最重要的捕鲸港口之一，当年的繁荣在一排排保存完好的船长府邸与商人豪宅中清晰可见。捕鲸博物馆以翔实的史料与实物藏品再现了那个危险而辉煌的捕鲸时代，文学巨匠约翰·斯坦贝克也曾长居此地，汲取灵感。漫步Main Street，历史与当代艺术在同一条石板路上和谐共存，这正是萨格港最迷人的魅力所在。',
+    detail: '博物馆 $10 · Main Street 步行可达 · 距LIC约95英里',
+    nearby: [9, 17],
+    rating: 4.2,
+    reviews: [
+      { author: 'Patricia A.', stars: 4, text: 'The whaling museum is small but fascinating. The captain\'s houses along Main Street tell the real story.' },
+      { author: 'William R.', stars: 4, text: 'Great local history. Steinbeck lived here — you can feel the literary heritage everywhere.' },
+      { author: 'Dorothy M.', stars: 5, text: 'Combined the museum with a morning walk through town. Perfect 2-hour stop.' }
+    ]
+  },
+  17: {
+    name: 'Montauk Lighthouse',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [41.071, -71.857],
+    desc: '蒙托克灯塔始建于1796年，是乔治·华盛顿总统亲自下令修建的历史遗址，也是美国现存第四古老的灯塔，矗立于长岛最东端的悬崖之上俯瞰大西洋。攀登灯塔顶端，三百六十度无遮挡的海天一色令无数访客屏息凝神，感受长岛在此画下的壮阔句点。博物馆内陈列着两百余年的航海史料与灯塔守护者的生活故事，每一件展品都承载着丰富的历史厚度。',
+    detail: '门票 $12 · 4–11月开放 · 蒙托克最东端 · 距LIC约120英里',
+    nearby: [5, 16],
+    rating: 4.8,
+    reviews: [
+      { author: 'Thomas B.', stars: 5, text: 'Climbing to the top for 360° ocean views is absolutely unforgettable. A Long Island must-do.' },
+      { author: 'Sandra L.', stars: 5, text: 'Standing at the very tip of Long Island feels epic. The museum inside is well done too.' },
+      { author: 'Joseph C.', stars: 4, text: 'The drive out to Montauk is half the experience. The lighthouse itself is iconic and well-preserved.' }
+    ]
+  },
+  18: {
+    name: 'Stony Brook Village',
+    catLabel: '历史',
+    cat: 'history',
+    ll: [40.914, -73.149],
+    desc: '石溪村是一座经过1940年代精心修复的十八世纪古镇，古朴的磨坊、鹅卵石小径与殖民地风格的建筑群还原了早期美国乡村的原貌。镇内设有多家主题各异的历史博物馆，从美国民间艺术到马车收藏一应俱全，与毗邻的石溪大学共同营造出浓郁的人文气息。春季沿溪而行，听水车缓缓转动，这份宁谧的时光感是繁忙都市生活中难得的精神调剂。',
+    detail: '多数景点免费 · Suffolk County · 距LIC约50英里',
+    nearby: [13, 22],
+    rating: 4.1,
+    reviews: [
+      { author: 'Barbara N.', stars: 4, text: 'Charming restored colonial village. The grist mill is still working — fascinating to watch.' },
+      { author: 'Charles E.', stars: 4, text: 'A quiet gem off the beaten path. The carriage museum has an incredible collection.' },
+      { author: 'Margaret P.', stars: 4, text: 'Perfect for a slow afternoon stroll. The creek walk in spring is lovely.' }
+    ]
+  },
+  19: {
+    name: 'Caumsett State Park',
+    catLabel: '自然',
+    cat: 'nature',
+    ll: [40.921, -73.494],
+    desc: 'Caumsett州立公园占据了Lloyd Neck半岛的大半版图，1520英亩的原始土地涵盖潮汐湿地、悬崖步道与古老森林，是长岛西部规模最大的自然保护地之一。长岛湾沿岸的悬崖小径提供了令人叹为观止的海湾全景，四五月间鱼鹰在此大规模筑巢育雏，观鸟爱好者不应错过。公园内不设餐饮设施，建议自备野餐，在临海草甸上席地而坐，感受远离城市的纯粹自然。',
+    detail: '停车 $8 · 日出至日落 · Nassau/Suffolk 边界 · 距LIC约40英里',
+    nearby: [14, 20],
+    rating: 4.4,
+    reviews: [
+      { author: 'Donald F.', stars: 5, text: 'The cliff trail along the Sound is world-class. Osprey nesting season in spring is spectacular.' },
+      { author: 'Carol T.', stars: 4, text: 'Pack a picnic — there\'s no food here but the meadow overlooks are perfect lunch spots.' },
+      { author: 'Steven H.', stars: 4, text: 'Feels completely wild, hard to believe you\'re 40 miles from Manhattan. Bring good shoes.' }
+    ]
+  },
+  20: {
+    name: 'Connetquot River Park',
+    catLabel: '自然',
+    cat: 'nature',
+    ll: [40.747, -73.163],
+    desc: 'Connetquot河州立公园保护区拥有东海岸水质最纯净的鳟鱼溪流之一，清澈见底的河水中可见鱼群悠游，是垂钓爱好者心中的朝圣之地。园内一座十九世纪历史磨坊依旧完好，周边古老森林步道四季皆宜徒步探访，春季尤其适合观赏野花与候鸟迁徙。垂钓须提前预约配额名额，建议早早规划行程，以免向隅而返。',
+    detail: '停车 $8 · 须提前预约垂钓 · Suffolk County · 距LIC约55英里',
+    nearby: [19, 23],
+    rating: 4.2,
+    reviews: [
+      { author: 'Ruth A.', stars: 4, text: 'Crystal clear trout streams in the middle of Long Island. A nature lover\'s paradise.' },
+      { author: 'Larry W.', stars: 4, text: 'The old mill and forest trails are beautiful. Reservation required for fishing but worth it.' },
+      { author: 'Janet D.', stars: 5, text: 'Spring wildflowers along the river are gorgeous. One of LI\'s best-kept secrets.' }
+    ]
+  },
+  21: {
+    name: 'Hither Hills Walking Dunes',
+    catLabel: '自然',
+    cat: 'nature',
+    ll: [41.019, -71.995],
+    desc: '行走沙丘是长岛自然奇观中最令人称奇的存在，这片抛物线形沙丘以每年数英尺的速度向内陆缓缓迁移，所经之处将整片松林活埋，露出枯树枝桠刺穿沙面的超现实景象。这种移动沙丘在北美极为罕见，蒙托克独特的地质与风向共同造就了这一自然杰作。建议穿着厚底鞋探访，在沙丘顶端可同时俯瞰大西洋与内陆湖泊，视野开阔令人心旷神怡。',
+    detail: '免费 · 全年开放 · 紧邻 Hither Hills 露营地 · 距LIC约110英里',
+    nearby: [5, 24],
+    rating: 4.5,
+    reviews: [
+      { author: 'Roger K.', stars: 5, text: 'Surreal landscape — pine trees buried alive in moving sand. Nothing else like it on the East Coast.' },
+      { author: 'Diane S.', stars: 4, text: 'The view from the top of the dunes is incredible — ocean on one side, freshwater lake on the other.' },
+      { author: 'Philip M.', stars: 5, text: 'One of the most unique geological features I\'ve ever seen. Wear sturdy shoes for the sand.' }
+    ]
+  },
+  22: {
+    name: 'Cold Spring Harbor',
+    catLabel: '自然',
+    cat: 'nature',
+    ll: [40.863, -73.448],
+    desc: '冷泉港是长岛北岸最秀美的湾区小镇之一，宁静的海湾倒映着四季不同的山林色彩，春季候鸟迁徙期间更是观鸟者趋之若鹜的天然观测站。镇内设有历史悠久的鱼类孵化场，可近距离观察鲟鱼与鲑鱼的生命周期，捕鲸博物馆则以精彩藏品讲述小镇昔日的海洋荣光。漫步港口栈桥，海风徐来，远离繁嚣，这里是长岛北岸慢游路线中不可略去的一站。',
+    detail: '小镇漫步免费 · 鱼类孵化场 $7 · Nassau/Suffolk 边界 · 距LIC约38英里',
+    nearby: [13, 18],
+    rating: 4.2,
+    reviews: [
+      { author: 'Deborah L.', stars: 4, text: 'Quaint harbor town with great bird watching. The fish hatchery is surprisingly interesting.' },
+      { author: 'Kenneth R.', stars: 4, text: 'Beautiful spot for a quiet afternoon. The harbor walk and whaling museum are worth the stop.' },
+      { author: 'Christine W.', stars: 5, text: 'We came for lunch and stayed for hours. The old-world charm of this town is irresistible.' }
+    ]
+  },
+  23: {
+    name: 'Fire Island',
+    catLabel: '自然',
+    cat: 'nature',
+    ll: [40.640, -73.180],
+    desc: 'Fire Island是一座绵延26英里却禁止私家车进入的屏障岛，原始的沙滩荒野与宁静的无车村落共同构成了纽约近郊最与众不同的自然体验。梅花鹿在松林间自由漫步，osprey在高处盘旋巡视，国家公园级别的生态保护令这片土地维持着难得的野性之美。从Bay Shore搭乘渡轮出发，抵达后步行即可探索一切，建议留宿一晚，在没有汽车噪音的夜空下数星星。',
+    detail: '渡轮 $9 往返 · 从 Bay Shore 出发 · 距LIC约55英里',
+    nearby: [1, 3, 20],
+    rating: 4.6,
+    reviews: [
+      { author: 'Jeffrey H.', stars: 5, text: 'No cars on the island — it\'s like stepping back in time. The deer wander right past you.' },
+      { author: 'Rebecca M.', stars: 5, text: 'The ferry ride is half the fun. Spent a day hiking the national seashore trails. Magical.' },
+      { author: 'Scott B.', stars: 4, text: 'Truly wild barrier island experience just an hour from NYC. Stay overnight if you can.' }
+    ]
+  },
+  24: {
+    name: 'Shelter Island',
+    catLabel: '自然',
+    cat: 'nature',
+    ll: [41.066, -72.321],
+    desc: 'Shelter Island静卧于North Fork与South Fork之间，岛屿面积的三分之一受Mashomack自然保护区永久保护，8000英亩的潮汐湿地与橡树森林为无数候鸟和鱼鹰提供了理想的繁殖栖所。进出小岛须乘坐渡轮，这道天然的隔离屏障恰好过滤掉了喧嚣人流，保留了一份真实的海岛慢生活节奏。春季骑行环岛，沿途可见鱼鹰在高巢俯瞰海湾，偶尔还能与白尾鹿在林间小路不期而遇。',
+    detail: '渡轮 $14/车 · 从 North Haven 或 Greenport 出发 · 距LIC约90英里',
+    nearby: [10, 21],
+    rating: 4.5,
+    reviews: [
+      { author: 'Melissa T.', stars: 5, text: 'The double ferry crossing makes it feel like a real adventure. Mashomack trails are pristine.' },
+      { author: 'Gary N.', stars: 4, text: 'Osprey everywhere in spring. The island has a timeless, unhurried quality you won\'t find elsewhere.' },
+      { author: 'Laura C.', stars: 5, text: 'Biked around the entire island in a morning. Every view was postcard-perfect.' }
+    ]
+  },
+  25: {
+    name: 'Sands Point Preserve',
+    catLabel: '庄园',
+    cat: 'history',
+    ll: [40.857, -73.718],
+    desc: '古根海姆家族旧宅，三座镀金时代建筑（Castle Gould、Hempstead House、Falaise）矗立于长岛海峡悬崖之上，对岸是康涅狄格海岸。崖边步道野花盛开，视野开阔，游客远少于其他庄园——金色海岸最被低估的隐秘之地。216英亩的保护区内古木参天，四月下旬野花遍布步道两侧，是摄影和漫步的绝佳去处。',
+    detail: '停车 $10 · 悬崖步道 · Nassau County · 距LIC约27分钟',
+    nearby: [11, 12],
+    rating: 4.4,
+    reviews: [
+      { author: 'Amanda L.', stars: 5, text: 'The cliff walk overlooking Long Island Sound is breathtaking. Castle Gould looks like something out of a fairy tale.' },
+      { author: 'Jason W.', stars: 4, text: 'Way less crowded than Old Westbury. The Hempstead House exterior alone is worth the visit.' },
+      { author: 'Michelle Y.', stars: 4, text: 'Beautiful grounds, especially in spring. The wildflower trail along the bluffs is magical.' }
+    ]
+  }
+};
+
+
+var modalMap = null;
+
+function openAttrModal(id) {
+  var d = ATTRACTION_DATA[id];
+  if (!d) return;
+  document.getElementById('modal-img').src = './assets/destinations/dest_' + id + '.jpg';
+  document.getElementById('modal-img').alt = d.name;
+  var catEl = document.getElementById('modal-cat');
+  catEl.textContent = d.catLabel;
+  catEl.className = 'modal-cat ' + d.cat;
+  document.getElementById('modal-name').textContent = d.name;
+  document.getElementById('modal-desc').textContent = d.desc;
+  document.getElementById('modal-detail').textContent = d.detail;
+  document.getElementById('modal-nav-btn').href = 'https://www.google.com/maps/dir/?api=1&destination=' + d.ll[0] + ',' + d.ll[1];
+  // Ratings & reviews
+  var ratingSumEl = document.getElementById('modal-rating-summary');
+  var reviewListEl = document.getElementById('modal-review-list');
+  ratingSumEl.innerHTML = '';
+  reviewListEl.innerHTML = '';
+  function starsHTML(r) {
+    var h = '', full = Math.floor(r), half = r - full >= 0.3;
+    for (var i = 0; i < 5; i++) {
+      if (i < full) h += '<span>\u2605</span>';
+      else if (i === full && half) h += '<span>\u2605</span>';
+      else h += '<span class="empty">\u2605</span>';
+    }
+    return h;
+  }
+  if (d.rating && d.reviews) {
+    ratingSumEl.innerHTML = '<span class="modal-rating-score">' + d.rating.toFixed(1) + '</span>' +
+      '<span class="modal-rating-stars">' + starsHTML(d.rating) + '</span>';
+    d.reviews.forEach(function(r) {
+      var div = document.createElement('div');
+      div.className = 'modal-review';
+      div.innerHTML = '<div class="modal-review-header">' +
+        '<span class="modal-review-author">' + r.author + '</span>' +
+        '<span class="modal-review-stars">' + starsHTML(r.stars) + '</span>' +
+        '</div><p class="modal-review-text">' + r.text + '</p>';
+      reviewListEl.appendChild(div);
+    });
+    document.getElementById('modal-rating-block').style.display = '';
+  } else {
+    document.getElementById('modal-rating-block').style.display = 'none';
+  }
+  var nearbyEl = document.getElementById('modal-nearby');
+  nearbyEl.innerHTML = '';
+  (d.nearby || []).forEach(function(nid) {
+    var nd = ATTRACTION_DATA[nid]; if (!nd) return;
+    var chip = document.createElement('button');
+    chip.className = 'modal-nearby-chip';
+    chip.textContent = nd.name;
+    chip.onclick = function() { openAttrModal(nid); };
+    nearbyEl.appendChild(chip);
+  });
+  document.getElementById('attr-modal').removeAttribute('hidden');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() {
+    if (modalMap) { modalMap.remove(); modalMap = null; }
+    modalMap = L.map('modal-map', { zoomControl: true, scrollWheelZoom: false }).setView(d.ll, 9);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+      { attribution: '© OpenStreetMap © CARTO' }).addTo(modalMap);
+    modalMap.invalidateSize();
+    L.marker(d.ll).bindPopup('<b>' + d.name + '</b>').addTo(modalMap).openPopup();
+  }, 60);
+}
+
+function closeAttrModal() {
+  document.getElementById('attr-modal').setAttribute('hidden', '');
+  document.body.style.overflow = '';
+  if (modalMap) { modalMap.remove(); modalMap = null; }
+}
+
+document.getElementById('modalClose').addEventListener('click', closeAttrModal);
+document.getElementById('modalBackdrop').addEventListener('click', closeAttrModal);
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAttrModal(); });
+
+document.querySelectorAll('[data-photo-id]').forEach(function(card) {
+  var id = parseInt(card.dataset.photoId);
+  if (!ATTRACTION_DATA[id]) return;
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', function(e) {
+    if (e.target.closest('.attr-del-btn')) return;
+    openAttrModal(id);
+  });
+});
+
+
+// ─── Card-link clicks (timeline + overview cards) ──────────────────────────────
+document.querySelectorAll('.card-link[data-attr]').forEach(function(el) {
+  el.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    openAttrModal(parseInt(this.dataset.attr));
+  });
+});
+
+</script>
+
+</body>
+</html>
