@@ -2048,8 +2048,9 @@ document.querySelectorAll('.day-tab').forEach(function(tab) {
       panel.classList.add('active');
       var tabs = document.querySelector('.day-tabs');
       if (tabs) {
-        var offset = document.querySelector('.rail') ? document.querySelector('.rail').offsetHeight : 64;
-        window.scrollTo({ top: tabs.offsetTop - offset, behavior: 'smooth' });
+        var rect = tabs.getBoundingClientRect();
+        var navH = document.querySelector('.rail') ? document.querySelector('.rail').offsetHeight : 64;
+        window.scrollBy({ top: rect.top - navH, behavior: 'smooth' });
       }
     }
   });
