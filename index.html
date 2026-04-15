@@ -137,7 +137,7 @@ a { color: inherit; }
   gap: 20px; flex-wrap: wrap;
 }
 
-.day-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.day-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; position: sticky; top: 64px; z-index: 50; background: var(--bg); padding: 12px 0; }
 .day-tab {
   background: var(--bg); border: 1px solid transparent;
   border-radius: 999px; padding: 8px 20px; font-size: 13px;
@@ -298,6 +298,18 @@ footer strong { color: #fff; }
 @media (max-width: 540px) {
   .attraction-grid { grid-template-columns: 1fr; }
   .route-gallery { grid-template-columns: 1fr; }
+  .budget-card { padding: 16px; }
+  .budget-table { font-size: 0.8rem; }
+  .budget-total-num { font-size: 1.2rem; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .review-card { padding: 14px 16px; }
+  .resto-card { padding: 12px 14px; }
+  .progress-bar-wrap { padding: 10px 14px; flex-wrap: wrap; }
+  .share-btn { width: 100%; justify-content: center; }
+  .tl-nav-btn { font-size: 10px; }
+  .planb-card { padding: 16px; }
+  .route-reviews { margin-top: 12px; }
+  .route-review-item { padding: 10px 12px; }
 }
 
 /* ── Timeline itinerary ── */
